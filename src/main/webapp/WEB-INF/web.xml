@@ -4,21 +4,76 @@
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
-  
-	<servlet>
-  		<servlet-name>Jersey REST Service</servlet-name>
-		<servlet-class>
-  			com.sun.jersey.spi.container.servlet.ServletContainer
-		</servlet-class>
-  		<init-param>
-    		<param-name>com.sun.jersey.config.property.packages</param-name>
-    		<param-value>news.caughtup.rest</param-value>
-  		</init-param>
-  		<load-on-startup>1</load-on-startup>
-	</servlet>
+ 
+	<servlet>  
+    	<servlet-name>Register</servlet-name>  
+    	<servlet-class>news.caughtup.rest.RegisterServlet</servlet-class>  
+  	</servlet>  
+  	<servlet-mapping>  
+    	<servlet-name>Register</servlet-name>  
+    	<url-pattern>/register/*</url-pattern>  
+  	</servlet-mapping> 
 	
-	<servlet-mapping>
-  		<servlet-name>Jersey REST Service</servlet-name>
-  		<url-pattern>/*</url-pattern>
-	</servlet-mapping>
+	<servlet>  
+    	<servlet-name>Login</servlet-name>  
+    	<servlet-class>news.caughtup.rest.LoginServlet</servlet-class>  
+  	</servlet>  
+  	<servlet-mapping>  
+    	<servlet-name>Login</servlet-name>  
+    	<url-pattern>/login/*</url-pattern>  
+  	</servlet-mapping> 
+  	
+  	<servlet>  
+    	<servlet-name>Logout</servlet-name>  
+    	<servlet-class>news.caughtup.rest.LogoutServlet</servlet-class>  
+  	</servlet>  
+  	<servlet-mapping>  
+    	<servlet-name>Logout</servlet-name>  
+    	<url-pattern>/logout/*</url-pattern>  
+  	</servlet-mapping>
+  	
+  	<servlet>  
+    	<servlet-name>Profile</servlet-name>  
+    	<servlet-class>news.caughtup.rest.ProfileServlet</servlet-class>  
+  	</servlet>  
+  	<servlet-mapping>  
+    	<servlet-name>Profile</servlet-name>  
+    	<url-pattern>/profile/*</url-pattern>  
+  	</servlet-mapping>
+  	
+  	<servlet>  
+    	<servlet-name>Articles</servlet-name>  
+    	<servlet-class>news.caughtup.rest.ArticleServlet</servlet-class>  
+  	</servlet>  
+  	<servlet-mapping>  
+    	<servlet-name>Articles</servlet-name>  
+    	<url-pattern>/articles</url-pattern>  
+  	</servlet-mapping> 
+  	
+  	<servlet>  
+    	<servlet-name>Follow</servlet-name>  
+    	<servlet-class>news.caughtup.rest.FollowServlet</servlet-class>  
+  	</servlet>  
+  	<servlet-mapping>  
+    	<servlet-name>Follow</servlet-name>  
+    	<url-pattern>/follow/*</url-pattern>  
+  	</servlet-mapping>    
+  	
+  	<servlet>  
+    	<servlet-name>Share</servlet-name>  
+    	<servlet-class>news.caughtup.rest.ShareServlet</servlet-class>  
+  	</servlet>  
+  	<servlet-mapping>  
+    	<servlet-name>Share</servlet-name>  
+    	<url-pattern>/share</url-pattern>  
+  	</servlet-mapping>
+  	
+  	<servlet>  
+    	<servlet-name>Search</servlet-name>  
+    	<servlet-class>news.caughtup.rest.SearchServlet</servlet-class>  
+  	</servlet>  
+  	<servlet-mapping>  
+    	<servlet-name>Search</servlet-name>  
+    	<url-pattern>/search</url-pattern>  
+  	</servlet-mapping>
 </web-app>
