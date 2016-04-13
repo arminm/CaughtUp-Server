@@ -6,13 +6,21 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 
 @Path("/follow/{username}")
 public class FollowService {
 	
 	@GET
-	public synchronized String getFollowers(@PathParam("username") String username) {
-		return "Successfully retrieved followers of user: " + username;
+	public synchronized String getFollowers(@PathParam("username") String username,
+											@QueryParam("type") String type) {
+		if (type.equals("users")) {
+			return "Successfully retrieved followers of user: " + username;
+		} else if (type.equals("sources")) {
+			return "Successfully retrieved sources followed by user: " + username;
+		} else {
+			return "Unhandled type of followed objects";
+		}
 	}
 	
 	@POST

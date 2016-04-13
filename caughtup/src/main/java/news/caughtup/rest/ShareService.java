@@ -12,7 +12,7 @@ import news.caughtup.model.SharedArticle;
 public class ShareService {
 	
 	@GET
-	public synchronized String getArticles(@QueryParam("username") String username) {
+	public synchronized String getSharedArticles(@QueryParam("username") String username) {
 		return "Successfully retrieved articles shared by followers of user: " + username;
 	}
 	
