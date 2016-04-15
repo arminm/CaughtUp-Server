@@ -13,7 +13,7 @@ public class Dispatcher {
 	public Dispatcher getDispatcher() {
 		if (dispatcher == null) {
 			dispatcher = new Dispatcher();
-			caughtUpSockets = new HashMap<>();
+			caughtUpSockets = new HashMap<String, CaughtUpSocket>();
 		}
 		return dispatcher;
 	}
