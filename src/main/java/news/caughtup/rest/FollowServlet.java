@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import news.caughtup.model.Follower;
+import news.caughtup.model.Followed;
 
 public class FollowServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -44,7 +44,7 @@ public class FollowServlet extends HttpServlet {
         while ((s = req.getReader().readLine()) != null) {
             sb.append(s);
         }
-		Follower follower = (Follower) gson.fromJson(sb.toString(), Follower.class);
+		Followed follower = (Followed) gson.fromJson(sb.toString(), Followed.class);
 		PrintWriter out = resp.getWriter();
 		out.println("Successfully deleted follower " + follower.getFollower() + " for user: " + username);
 	}
