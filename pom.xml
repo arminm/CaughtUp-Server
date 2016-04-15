@@ -34,7 +34,7 @@
         	<version>2.6</version>
             <executions>
      			<execution>
-        			<id>copy-resources-2</id>
+        			<id>copy-resources</id>
         			<phase>validate</phase>
         			<goals>
           				<goal>copy-resources</goal>
