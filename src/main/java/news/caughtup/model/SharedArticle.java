@@ -2,7 +2,7 @@ package news.caughtup.model;
 
 public class SharedArticle {
 	private String username;
-	private String article;
+	private Article article;
 	
 	public String getUsername() {
 		return username;
@@ -12,11 +12,11 @@ public class SharedArticle {
 		this.username = username;
 	}
 	
-	public String getArticle() {
+	public Article getArticle() {
 		return article;
 	}
 	
-	public void setArticle(String article) {
+	public void setArticle(Article article) {
 		this.article = article;
 	}
 }
