@@ -30,4 +30,5 @@ buildNumber.properties
 file:
 
 # Ignore any ssh key files
-*.pem 
+*.pem
+*.csv 
