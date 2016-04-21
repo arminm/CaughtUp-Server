@@ -1,5 +1,5 @@
 #!/bin/bash
 
-rm -r /home/ubuntu/CaughtUp-Server/src
-rm /home/ubuntu/CaughtUp-Server/pom.xml
-rm -r /home/ubuntu/CaughtUp-Server/target
+rm -rf /home/ubuntu/CaughtUp-Server/src
+rm -f /home/ubuntu/CaughtUp-Server/pom.xml
+rm -rf /home/ubuntu/CaughtUp-Server/target
