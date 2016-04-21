@@ -11,6 +11,7 @@ public class UserDBAdapter extends DBAdapter {
 
     public static synchronized void saveUser(User user) {
         // TODO: save to DB
+        System.out.println("User save in the database");
     }
 
     public static synchronized void updateUser(User user) {

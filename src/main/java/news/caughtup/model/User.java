@@ -1,6 +1,7 @@
 package news.caughtup.model;
 
 public class User {
+    private static final String SEPARATOR=",";
     private String username;
     private String fullName;
     private int age;
@@ -84,5 +85,19 @@ public class User {
 
     public void setAboutMe(String aboutMe) {
         this.aboutMe = aboutMe;
+    }
+    
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("username:").append(username).append(SEPARATOR);
+        sb.append("fullName:").append(fullName).append(SEPARATOR);
+        sb.append("age:").append(age).append(SEPARATOR);
+        sb.append("gender:").append(gender).append(SEPARATOR);
+        sb.append("email:").append(email).append(SEPARATOR);
+        sb.append("profile_picture_url:").append(profilePictureURL).append(SEPARATOR);
+        sb.append("location:").append(location).append(SEPARATOR);
+        sb.append("about_me:").append(aboutMe);
+        return sb.toString();
     }
 }

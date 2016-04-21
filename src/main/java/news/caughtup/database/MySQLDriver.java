@@ -17,7 +17,7 @@ public class MySQLDriver {
             try {
                 /* Initialize Connection with database */
                 Properties props = new Properties();
-                FileInputStream in = new FileInputStream("db.properties");
+                FileInputStream in = new FileInputStream("src/main/resources/db.properties");
                 props.load(in);
                 String driverName = props.getProperty("driverName");
                 String url = props.getProperty("url");
