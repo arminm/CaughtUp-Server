@@ -29,12 +29,10 @@ public class RegisterServlet extends HttpServlet {
         }
         User user = (User) gson.fromJson(sb.toString(), User.class);
         user.setUsername(username);
-        PrintWriter out = resp.getWriter();
-        
         userList.addToUserList(user);
-        
         UserDBAdapter.saveUser(user);
         
+        PrintWriter out = resp.getWriter();
         out.println("Successfully registered user: " + user.toString());
     }
 }
