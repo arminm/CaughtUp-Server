@@ -28,3 +28,7 @@ buildNumber.properties
 .metadata
 .recommenders
 file:
+
+# Ignore any ssh key files
+*.pem
+*.csv 
