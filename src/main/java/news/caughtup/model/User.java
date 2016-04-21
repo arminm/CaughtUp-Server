@@ -3,6 +3,7 @@ package news.caughtup.model;
 public class User {
     private static final String SEPARATOR=",";
     private String username;
+    private String password;
     private String fullName;
     private int age;
     private Gender gender;
@@ -11,9 +12,10 @@ public class User {
     private String location;
     private String aboutMe;
 
-    public User(String username, String fullName, int age, Gender gender, String email, 
-            String profilePictureURL, String location, String aboutMe) {
+    public User(String username, String password, String fullName, int age, Gender gender, 
+            String email, String profilePictureURL, String location, String aboutMe) {
         this.username = username;
+        this.password = password;
         this.fullName = fullName;
         this.age = age;
         this.gender = gender;
@@ -29,6 +31,14 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+    
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getFullName() {

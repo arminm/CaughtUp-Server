@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import news.caughtup.model.Password;
+import news.caughtup.model.User;
 
 public class LoginServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -24,9 +24,10 @@ public class LoginServlet extends HttpServlet {
         while ((s = req.getReader().readLine()) != null) {
             sb.append(s);
         }
-        Password password = (Password) gson.fromJson(sb.toString(), Password.class);
+        User user = (User) gson.fromJson(sb.toString(), User.class);
+        user.setUsername(username);
         
         PrintWriter out = resp.getWriter();
-        out.println("Successfully logged in user: " + username + " password: " + password.toString());
+        out.println("Successfully logged in user: " + username + " password: " + user.getPassword());
     }
 }
