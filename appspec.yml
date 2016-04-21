@@ -4,7 +4,7 @@ os: linux
 
 files:
   - source: src
-    destination: /home/ubuntu/CaughtUp-Server
+    destination: /home/ubuntu/CaughtUp-Server/src
   - source: pom.xml
     destination: /home/ubuntu/CaughtUp-Server
 
