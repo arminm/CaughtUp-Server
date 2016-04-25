@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -23,10 +24,11 @@ public class TestS3Servlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         S3Proxy proxy = new S3Proxy("caughtup.news.profile.pictures/dimitris", "mypic.png");
         FileInputStream stream;
+        String pictureURL = null;
         try {
             stream = new FileInputStream("/home/ubuntu/mypic.png");
             if (proxy.deletePicture()) {
-                proxy.uploadPicture(stream);
+                pictureURL = proxy.uploadPicture(stream);
                 InputStream stream2 = (InputStream) proxy.downloadPicture();
                 Path outFile = Paths.get("/home/ubuntu/mypic2.png");
                 Files.copy(stream2, outFile);
@@ -38,5 +40,7 @@ public class TestS3Servlet extends HttpServlet {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        PrintWriter out = resp.getWriter();
+        out.println(pictureURL);
     }
 }

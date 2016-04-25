@@ -7,15 +7,15 @@ import com.amazonaws.AmazonServiceException;
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
-import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 
 public class S3Client implements PictureClient {
-    private static final AmazonS3 s3Client = new AmazonS3Client(new ProfileCredentialsProvider());
+    private static final AmazonS3Client s3Client = new AmazonS3Client(new ProfileCredentialsProvider());
     private String bucketName;
     private String pictureName;
 
@@ -37,8 +37,9 @@ public class S3Client implements PictureClient {
     public String uploadPicture(InputStream stream) {
         try {
             System.out.println("Uploading a new object to S3 from a file\n");
-            s3Client.putObject(new PutObjectRequest(bucketName, pictureName, stream, new ObjectMetadata()));
-            return pictureName;
+            s3Client.putObject(new PutObjectRequest(bucketName, pictureName, stream, new ObjectMetadata())
+                    .withCannedAcl(CannedAccessControlList.PublicRead));
+            return s3Client.getResourceUrl(bucketName, pictureName);
          } catch (AmazonServiceException ase) {
             System.out.println("Caught an AmazonServiceException, which " +
                     "means your request made it " +
