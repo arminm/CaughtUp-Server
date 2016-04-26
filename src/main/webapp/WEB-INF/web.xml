@@ -76,4 +76,13 @@
     	<servlet-name>Search</servlet-name>  
     	<url-pattern>/search</url-pattern>  
   	</servlet-mapping>
+  	
+  	<servlet>  
+    	<servlet-name>TestS3</servlet-name>  
+    	<servlet-class>news.caughtup.rest.TestS3Servlet</servlet-class>  
+  	</servlet>  
+  	<servlet-mapping>  
+    	<servlet-name>TestS3</servlet-name>  
+    	<url-pattern>/testS3</url-pattern>  
+  	</servlet-mapping>
 </web-app>
