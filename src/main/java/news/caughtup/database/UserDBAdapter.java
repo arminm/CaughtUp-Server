@@ -9,9 +9,10 @@ public class UserDBAdapter extends DBAdapter {
         return null;
     }
 
-    public static synchronized void saveUser(User user) {
+    public static synchronized boolean saveUser(User user) {
         // TODO: save to DB
         System.out.println("User save in the database");
+        return true;
     }
 
     public static synchronized void updateUser(User user) {
