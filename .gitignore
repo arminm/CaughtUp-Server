@@ -29,6 +29,9 @@ buildNumber.properties
 .recommenders
 file:
 
-# keys and credentials
+# Ignore any ssh key files
 *.pem
-*.csv
+*.csv 
+
+# Ignore db properties
+db.properties
