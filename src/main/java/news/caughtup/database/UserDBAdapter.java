@@ -45,7 +45,7 @@ public class UserDBAdapter extends DBAdapter {
 	 * @return boolean (Success)
 	 * @throws SQLException
 	 */
-	public static synchronized boolean saveUser(User user) throws SQLException {
+	public static synchronized void saveUser(User user) throws SQLException {
 		PreparedStatement ps = driver.getPreparedStatement("insertUser");
 		int index = baseIndex;
 		ps.setInt(baseIndex, ResourceDBAdapter.createResource());
@@ -53,9 +53,6 @@ public class UserDBAdapter extends DBAdapter {
 		ps.setString(++index, user.getPassword());
 		ps.setString(++index, user.getFullName());
 		ps.executeUpdate();
-		System.out.printf("User saved in the database: %s\n", user.toString());
-
-		return true;
 	}
 
 	/**
@@ -99,6 +96,6 @@ public class UserDBAdapter extends DBAdapter {
 	public static synchronized void deleteUser(String username) throws SQLException {
 		PreparedStatement ps = driver.getPreparedStatement("deleteUser");
 		ps.setString(baseIndex, username);
-		ps.execute();    
+		ps.execute();
 	}
 }

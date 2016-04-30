@@ -33,27 +33,16 @@ public class RegisterServlet extends HttpServlet {
 		user.setUsername(username);
 
 		// Add user to user list and remove password for response
-		boolean success = false;
 		try {
-			success = UserDBAdapter.saveUser(user);
+			UserDBAdapter.saveUser(user);
+			userList.addToUserList(user);
+			user.setPassword(null);
+			out.println(Helpers.getGson().toJson(user));
 		} catch (SQLException e) {
 			System.err.println("Failed to save user in DB:" + user.toString());
 			System.err.println(e);
 			resp.setStatus(500);
-			out.println(Helpers.getErrorJSON("Internal Error."));
-			return;
-		}
-
-		if (success) {
-			userList.addToUserList(user);
-			user.setPassword(null);	
-		}
-
-		if (!success) {
-			resp.setStatus(400);
-			out.println(Helpers.getErrorJSON("Bad Request."));
-		} else {
-			out.println(Helpers.getGson().toJson(user));
+			out.println(Helpers.getErrorJSON("Internal Error. Make sure username is unique."));
 		}
 	}
 }
