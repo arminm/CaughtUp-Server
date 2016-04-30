@@ -21,7 +21,7 @@ public class MySQLDriver {
 
 	public MySQLDriver() {
 		if (connection == null) {
-		    String dbPropsPath = System.getProperty( "catalina.base" ) + "/webapps/caughtup/WEB-INF/classes/db.properties";
+		    String dbPropsPath = System.getProperty( "catalina.base" ) + "/webapps/db.properties";
 			try {
 				/* Initialize Connection with database */
 				Properties props = new Properties();
