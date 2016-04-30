@@ -1,24 +1,29 @@
 package news.caughtup.model;
 
+import java.sql.Timestamp;
+
 public class Article {
-	private Integer articleID;
+	private Long articleID;
+	private Long resourceID;
 	private String title;
-	private String date;
+	private Timestamp date;
 	private String summary;
 	private String articleURI;
 
-	public Article(Integer articleID, String title, String date, String summary, String articleURI) {
+	public Article(Long articleID, Long resourceID, String title, Timestamp date, String summary, String articleURI) {
+		this.articleID = articleID;
+		this.resourceID = resourceID;
 		this.title = title;
 		this.date = date;
 		this.summary = summary;
 		this.articleURI = articleURI;
 	}
-
-	public synchronized Integer getArticleID() {
-		return articleID;
+	
+	public synchronized Long getResourceID() {
+		return resourceID == null ? 0 : resourceID;
 	}
-	public synchronized void setArticleID(Integer articleID) {
-		this.articleID = articleID;
+	public synchronized Long getArticleID() {
+		return articleID == null ? 0 : articleID;
 	}
 	public String getTitle() {
 		return title;
@@ -26,10 +31,10 @@ public class Article {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public String getDate() {
+	public Timestamp getDate() {
 		return date;
 	}
-	public void setDate(String date) {
+	public void setDate(Timestamp date) {
 		this.date = date;
 	}
 	public String getSummary() {

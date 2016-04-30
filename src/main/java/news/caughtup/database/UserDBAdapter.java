@@ -48,7 +48,7 @@ public class UserDBAdapter extends DBAdapter {
 	public static synchronized void saveUser(User user) throws SQLException {
 		PreparedStatement ps = driver.getPreparedStatement("insertUser");
 		int index = baseIndex;
-		ps.setInt(baseIndex, ResourceDBAdapter.createResource());
+		ps.setLong(baseIndex, ResourceDBAdapter.createResource());
 		ps.setString(++index, user.getUsername());
 		ps.setString(++index, user.getPassword());
 		ps.setString(++index, user.getFullName());

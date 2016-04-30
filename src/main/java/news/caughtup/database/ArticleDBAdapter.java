@@ -2,6 +2,7 @@ package news.caughtup.database;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -18,9 +19,9 @@ public class ArticleDBAdapter extends DBAdapter {
 	public static synchronized void saveArticle(Article article) throws SQLException {
 		PreparedStatement ps = driver.getPreparedStatement("insertArticle");
 		int index = baseIndex;
-		ps.setInt(baseIndex, ResourceDBAdapter.createResource());
+		ps.setLong(baseIndex, article.getResourceID());
 		ps.setString(++index, article.getTitle());
-		ps.setString(++index, article.getDate());
+		ps.setTimestamp(++index, article.getDate());
 		ps.setString(++index, article.getSummary());
 		ps.setString(++index, article.getArticleURI());
 		ps.executeUpdate();
@@ -35,10 +36,10 @@ public class ArticleDBAdapter extends DBAdapter {
 		PreparedStatement ps = driver.getPreparedStatement("updateArticle");
 		int index = baseIndex;
 		ps.setString(baseIndex, article.getTitle());
-		ps.setString(++index, article.getDate());
+		ps.setTimestamp(++index, article.getDate());
 		ps.setString(++index, article.getSummary());
 		ps.setString(++index, article.getArticleURI());
-		ps.setInt(++index, article.getArticleID());
+		ps.setLong(++index, article.getArticleID());
 		ps.executeUpdate();
 	}
 
@@ -47,10 +48,13 @@ public class ArticleDBAdapter extends DBAdapter {
 	 * @param articleID
 	 * @throws SQLException
 	 */
-	public static synchronized void deleteArticle(Integer articleID) throws SQLException {
+	public static synchronized void deleteArticle(Long articleID) throws SQLException {
+		if (articleID == null) {
+			articleID = new Long(-1);
+		}
 		PreparedStatement ps = driver.getPreparedStatement("deleteArticle");
-		ps.setInt(baseIndex, articleID);
-		ps.execute();
+		ps.setLong(baseIndex, articleID);
+		ps.executeUpdate();
 	}
 	
 	/**
@@ -69,9 +73,10 @@ public class ArticleDBAdapter extends DBAdapter {
 		ArrayList<HashMap<String, Object>> results = driver.executeStatement(ps);
 		for (HashMap<String,Object> articleData : results) {
 			Article article = new Article(
-					(Integer) articleData.get("article_id"),
+					(Long) articleData.get("article_id"),
+					(Long) articleData.get("resource_id"),
 					(String) articleData.get("title"), 
-					(String) articleData.get("date"), 
+					(Timestamp) articleData.get("date"), 
 					(String) articleData.get("summary"), 
 					(String) articleData.get("article_url")
 					);
