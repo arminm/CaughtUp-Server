@@ -27,7 +27,7 @@ public class MySQLDriver {
 				/* TODO: 
 				 * The path needs to be updated with the correct file location 
 				 */
-				String dbPropsPath = System.getProperty( "catalina.base" ) + "/wtpwebapps/CaughtUp-Server/WEB-INF/classes/db.properties";
+				String dbPropsPath = System.getProperty( "catalina.base" ) + "/webapps/caughtup/WEB-INF/classes/db.properties";
 				FileInputStream in = new FileInputStream(dbPropsPath);
 				
 				
