@@ -11,6 +11,11 @@ import news.caughtup.model.NewsSource;
 
 public class NewsSourceDBAdapter extends DBAdapter {
     
+    /**
+     * Returns the list of all available news sources
+     * @return
+     * @throws SQLException
+     */
     public static synchronized Map<String, NewsSource> getNewsSources() throws SQLException {
         // Get all news sources' data from database
         PreparedStatement ps = driver.getPreparedStatement("getNewsSources");
@@ -36,6 +41,12 @@ public class NewsSourceDBAdapter extends DBAdapter {
         return newsSourcesMap;
     }
     
+    /**
+     * Saves (<b>INSERT</b>s) a news source in the DB
+     * @param newsSource
+     * @return
+     * @throws SQLException
+     */
     public static synchronized boolean saveNewsSource(NewsSource newsSource) throws SQLException {
         PreparedStatement ps = driver.getPreparedStatement("insertNewsSource");
         int index = baseIndex;
