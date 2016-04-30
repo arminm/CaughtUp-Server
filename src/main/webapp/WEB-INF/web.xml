@@ -5,6 +5,10 @@
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
  
+ 	<listener>
+		<listener-class>news.caughtup.util.CaughtUpServletContextListener</listener-class>
+   	</listener>
+ 
 	<servlet>  
     	<servlet-name>Register</servlet-name>  
     	<servlet-class>news.caughtup.rest.RegisterServlet</servlet-class>  
