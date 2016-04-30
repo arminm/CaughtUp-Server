@@ -2,19 +2,48 @@ package news.caughtup.rest;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class ArticleServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
+import news.caughtup.database.ArticleDBAdapter;
+import news.caughtup.model.Article;
+import news.caughtup.util.Helpers;
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String source = req.getParameter("source");
-        PrintWriter out = resp.getWriter();
-        out.println("Successfully retrieved articles for source: " + source);
-    }
+public class ArticleServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * [GET] /articles
+	 */
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// Prepare to send JSON response back to the client
+		resp.setContentType("application/json");
+		PrintWriter out = resp.getWriter();
+		
+		String source = req.getParameter("source");
+
+		try {
+			// Get articles from DB
+			ArrayList<Article> articles = ArticleDBAdapter.getArticles(source);
+
+			// Send JSON response back to the client
+			if (source == null) {
+				resp.setStatus(400);
+				out.println(Helpers.getErrorJSON("Bad Request. Source cannot be null."));
+			} else {
+				out.println(Helpers.getGson().toJson(articles));
+			}
+		} catch (SQLException e) {
+			System.err.println("Failed to get articles for source: " + source);
+			System.err.println(e);
+			resp.setStatus(500);
+			out.println(Helpers.getErrorJSON("Internal Error."));
+		}
+	}
 }

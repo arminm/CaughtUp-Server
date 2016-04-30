@@ -3,9 +3,11 @@ package news.caughtup.database;
 import java.sql.SQLException;
 
 public abstract class DBAdapter {
-    protected static MySQLDriver driver = new MySQLDriver();
+	protected static final int baseIndex = 1;
+	protected static final Long errorId = new Long(-1);
+	protected static MySQLDriver driver = new MySQLDriver();
 
-    protected static void close() throws SQLException {
-        driver.close();
-    }
+	protected static void close() throws SQLException {
+		driver.close();
+	}
 }

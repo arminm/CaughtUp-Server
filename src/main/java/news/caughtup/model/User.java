@@ -1,7 +1,11 @@
 package news.caughtup.model;
 
+import java.util.HashMap;
+
 public class User {
     private static final String SEPARATOR=",";
+    private Long userId;
+    private Long resourceId;
     private String username;
     private String password;
     private String fullName;
@@ -12,8 +16,10 @@ public class User {
     private String location;
     private String aboutMe;
 
-    public User(String username, String password, String fullName, Integer age, String gender, 
+    public User(Long userId, Long resourceId, String username, String password, String fullName, Integer age, String gender, 
             String email, String profilePictureURL, String location, String aboutMe) {
+    	this.userId = userId;
+    	this.resourceId = resourceId;
         this.username = username;
         this.password = password;
         this.fullName = fullName;
@@ -24,8 +30,34 @@ public class User {
         this.location = location;
         this.aboutMe = aboutMe;
     }
+    
+    public User(HashMap<String,Object> userData) {
+    	if (userData == null || userData.size() == 0) {
+    		return;
+    	}
+    	
+    	this.userId = (Long) userData.get("user_id");
+    	this.resourceId = (Long) userData.get("resource_id");
+        this.username = (String) userData.get("username");
+        this.password = (String) userData.get("password");
+        this.fullName = (String) userData.get("full_name");
+        this.age = (Integer) userData.get("age");
+        this.gender = Gender.parseGenderString((String) userData.get("gender"));
+        this.email = (String) userData.get("email");
+        this.profilePictureURL = (String) userData.get("profile_picture_url");
+        this.location = (String) userData.get("location");
+        this.aboutMe = (String) userData.get("about_me");
+    }
 
-    public String getUsername() {
+    public synchronized Long getUserId() {
+		return userId == null ? 0 : userId;
+	}
+
+	public synchronized Long getResourceId() {
+		return resourceId == null ? 0 : resourceId;
+	}
+
+	public String getUsername() {
         return username;
     }
 

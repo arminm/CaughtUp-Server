@@ -1,17 +1,16 @@
 package news.caughtup.model;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 public class NewsSource {
-    private int resourceId;
+    private Long resourceId;
     private String name;
     private String baseURL;
     private String description;
     private String rssURL;
     private Timestamp latestArticleDate;
     
-    public NewsSource(int resourceId, String name, String baseURL, String description, String rssURL, Timestamp latestArticleDate) {
+    public NewsSource(Long resourceId, String name, String baseURL, String description, String rssURL, Timestamp latestArticleDate) {
         super();
         this.resourceId = resourceId;
         this.name = name;
@@ -21,12 +20,8 @@ public class NewsSource {
         this.latestArticleDate = latestArticleDate;
     }
     
-    public int getResourceId() {
-        return resourceId;
-    }
-
-    public void setResourceId(int resourceId) {
-        this.resourceId = resourceId;
+    public Long getResourceId() {
+        return resourceId == null ? 0 : resourceId;
     }
 
     public String getName() {

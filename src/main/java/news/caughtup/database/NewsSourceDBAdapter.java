@@ -10,7 +10,6 @@ import java.util.Map;
 import news.caughtup.model.NewsSource;
 
 public class NewsSourceDBAdapter extends DBAdapter {
-    private static final int baseIndex = 1;
     
     public static synchronized Map<String, NewsSource> getNewsSources() throws SQLException {
         // Get all news sources' data from database
@@ -25,8 +24,8 @@ public class NewsSourceDBAdapter extends DBAdapter {
         // Create the NewsSource map object
         Map<String, NewsSource> newsSourcesMap = new HashMap<>();
         for (HashMap<String, Object> newsSourceData: result) {
-            Long resourceId = (Long) newsSourceData.get("resource_id");
-            NewsSource newsSource = new NewsSource((int) resourceId.longValue(),
+            NewsSource newsSource = new NewsSource(
+            		(Long) newsSourceData.get("resource_id"),
                     (String) newsSourceData.get("name"),
                     (String) newsSourceData.get("base_url"),
                     (String) newsSourceData.get("description"),
@@ -40,7 +39,7 @@ public class NewsSourceDBAdapter extends DBAdapter {
     public static synchronized boolean saveNewsSource(NewsSource newsSource) throws SQLException {
         PreparedStatement ps = driver.getPreparedStatement("insertNewsSource");
         int index = baseIndex;
-        ps.setInt(baseIndex, ResourceDBAdapter.createResource());
+        ps.setLong(baseIndex, ResourceDBAdapter.createResource());
         ps.setString(++index, newsSource.getName());
         ps.setString(++index, newsSource.getBaseURL());
         ps.setString(++index, newsSource.getDescription());

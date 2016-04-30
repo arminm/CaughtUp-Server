@@ -5,15 +5,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ResourceDBAdapter extends DBAdapter {
-	public static int createResource() throws SQLException{
+	public static Long createResource() throws SQLException{
 		PreparedStatement statement = driver.getPreparedStatement("createResource");
 		statement.executeUpdate();
 		ResultSet result = statement.getGeneratedKeys();
-        if(result.next())
-        {
-            return result.getInt(1);
-        } else {
-        	return -1;
-        }
+		if(result.next())
+		{
+			return result.getLong(baseIndex);
+		} else {
+			return errorId;
+		}
 	}
 }

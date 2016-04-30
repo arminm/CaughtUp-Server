@@ -8,7 +8,6 @@ import java.util.HashMap;
 import news.caughtup.model.User;
 
 public class UserDBAdapter extends DBAdapter {
-	private static final int baseIndex = 1;
 	/**
 	 * Gets a user from the database using the <b>username</b> and returns a <b>User</b> object.
 	 * @param username
@@ -26,16 +25,10 @@ public class UserDBAdapter extends DBAdapter {
 
 		// Create the user object
 		HashMap<String, Object> userData = result.get(0);
-		User user = new User((String) userData.get("username"),
-				(String) userData.get("password"), 
-				(String) userData.get("full_name"), 
-				(Integer) userData.get("age"), 
-				(String) userData.get("gender"), 
-				(String) userData.get("email"), 
-				(String) userData.get("profile_picture_url"), 
-				(String) userData.get("location"), 
-				(String) userData.get("about_me"));
-
+		User user = new User(userData);
+		if (user.getUserId() == 0) {
+			return null;
+		}
 		return user;
 	}
 
@@ -45,17 +38,14 @@ public class UserDBAdapter extends DBAdapter {
 	 * @return boolean (Success)
 	 * @throws SQLException
 	 */
-	public static synchronized boolean saveUser(User user) throws SQLException {
+	public static synchronized void saveUser(User user) throws SQLException {
 		PreparedStatement ps = driver.getPreparedStatement("insertUser");
 		int index = baseIndex;
-		ps.setInt(baseIndex, ResourceDBAdapter.createResource());
+		ps.setLong(baseIndex, ResourceDBAdapter.createResource());
 		ps.setString(++index, user.getUsername());
 		ps.setString(++index, user.getPassword());
 		ps.setString(++index, user.getFullName());
 		ps.executeUpdate();
-		System.out.printf("User saved in the database: %s\n", user.toString());
-
-		return true;
 	}
 
 	/**
@@ -99,6 +89,6 @@ public class UserDBAdapter extends DBAdapter {
 	public static synchronized void deleteUser(String username) throws SQLException {
 		PreparedStatement ps = driver.getPreparedStatement("deleteUser");
 		ps.setString(baseIndex, username);
-		ps.execute();    
+		ps.execute();
 	}
 }
