@@ -66,7 +66,6 @@ CREATE TABLE `news_source` (
   `description` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
   `rss_url` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
   `latest_article` datetime DEFAULT NULL,
-  `date_format` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`resource_id`),
   KEY `news_source_resource_fk_idx` (`resource_id`),
   CONSTRAINT `news_source_resource_fk` FOREIGN KEY (`resource_id`) REFERENCES `resource` (`resource_id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -104,7 +103,9 @@ CREATE TABLE `user` (
   `location` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `email` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `about_me` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `password` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`user_id`),
+  UNIQUE KEY `username_UNIQUE` (`username`),
   KEY `resource_fk_idx` (`resource_id`),
   CONSTRAINT `user_resource_fk` FOREIGN KEY (`resource_id`) REFERENCES `resource` (`resource_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -119,4 +120,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-04-29 15:29:59
+-- Dump completed on 2016-04-29 17:43:36
