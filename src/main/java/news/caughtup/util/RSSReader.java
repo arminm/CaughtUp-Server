@@ -38,7 +38,7 @@ public class RSSReader extends TimerTask {
                 SyndFeed feed = input.build(new XmlReader(feedUrl));
                 @SuppressWarnings("unchecked")
                 List<SyndEntryImpl> feeds = feed.getEntries();
-                Date newLatestArticleDate = null;
+                Date newLatestArticleDate = latestArticleDate;
                 for (SyndEntryImpl entry: feeds) {
                     Date articleDate = entry.getPublishedDate();
                     if ((latestArticleDate != null && articleDate.after(latestArticleDate)) 
