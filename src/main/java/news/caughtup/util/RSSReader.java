@@ -33,23 +33,30 @@ public class RSSReader extends TimerTask {
             Map<String, NewsSource> newsSourcesMap = new HashMap<String, NewsSource>(); 
             for (NewsSource newsSource: newsSourceList.getNewsSources()) {
                 URL feedUrl = new URL(newsSource.getRssURL());
-                Date latestArticleDate = newsSource.getLatestArticleDate();
                 SyndFeedInput input = new SyndFeedInput();
                 SyndFeed feed = input.build(new XmlReader(feedUrl));
                 @SuppressWarnings("unchecked")
                 List<SyndEntryImpl> feeds = feed.getEntries();
+                Date latestArticleDate = newsSource.getLatestArticleDate();
+                if (latestArticleDate == null) {
+                    latestArticleDate = feeds.get(0).getPublishedDate();
+                }
                 Date newLatestArticleDate = latestArticleDate;
+                System.out.println("Latest: " + newLatestArticleDate);
                 for (SyndEntryImpl entry: feeds) {
                     Date articleDate = entry.getPublishedDate();
-                    if ((latestArticleDate != null && articleDate.after(latestArticleDate)) 
-                        || latestArticleDate == null) {
-                        newLatestArticleDate = articleDate;
+                    if (articleDate.after(latestArticleDate)) {
+                        System.out.println("Article date: " + articleDate);
+                        if (articleDate.after(newLatestArticleDate)) {
+                            newLatestArticleDate = articleDate;
+                        }
                         Article article = new Article(entry.getTitle(), newsSource.getResourceId(), entry.getPublishedDate(), 
                                 entry.getDescription().toString(), entry.getUri());
                         // Save the new article in the Database
                         ArticleDBAdapter.saveArticle(article);
                     }
                 }
+                System.out.println("New Latest: " + newLatestArticleDate);
                 newsSource.setLatestArticleDate(newLatestArticleDate);
                 newsSourcesMap.put(newsSource.getName(), newsSource);
             }
