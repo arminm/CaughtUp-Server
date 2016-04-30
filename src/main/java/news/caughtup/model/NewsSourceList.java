@@ -16,6 +16,10 @@ public class NewsSourceList {
         return newsSourceList;
     }
     
+    public void setNewsSourcesMap(Map<String, NewsSource> newMap) {
+        newsSourcesMap = newMap;
+    }
+    
     public NewsSource getNewsSource(String source) {
         return newsSourcesMap.get(source);
     }

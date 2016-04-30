@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.TimerTask;
 
 import com.sun.syndication.feed.synd.SyndEntryImpl;
@@ -28,6 +30,7 @@ public class RSSReader extends TimerTask {
     @Override
     public void run() {
         try {
+            Map<String, NewsSource> newsSourcesMap = new HashMap<String, NewsSource>(); 
             for (NewsSource newsSource: newsSourceList.getNewsSources()) {
                 URL feedUrl = new URL(newsSource.getRssURL());
                 Date latestArticleDate = newsSource.getLatestArticleDate();
@@ -43,14 +46,14 @@ public class RSSReader extends TimerTask {
                         newLatestArticleDate = articleDate;
                         Article article = new Article(entry.getTitle(), entry.getPublishedDate(), 
                                 entry.getDescription().toString(), entry.getUri());
-                        // TODO update the value of latestArticle for this newsSource in the DB
                         // Save the new article in the Database
                         ArticleDBAdapter.saveArticle(article);
-//                        System.out.println(article.toString());
                     }
                 }
-//                System.out.println("New latest date: " + newLatestArticleDate);
+                newsSource.setLatestArticleDate(newLatestArticleDate);
+                newsSourcesMap.put(newsSource.getName(), newsSource);
             }
+            newsSourceList.setNewsSourcesMap(newsSourcesMap);
         }catch (MalformedURLException e) {
             System.err.println("Bad RSS feed URL");
         } catch (IllegalArgumentException e) {
