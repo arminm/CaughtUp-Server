@@ -21,13 +21,14 @@ public class MySQLDriver {
 
 	public MySQLDriver() {
 		if (connection == null) {
+		    String dbPropsPath = System.getProperty( "catalina.base" ) + "/webapps/caughtup/WEB-INF/classes/db.properties";
 			try {
 				/* Initialize Connection with database */
 				Properties props = new Properties();
 				/* TODO: 
 				 * The path needs to be updated with the correct file location 
 				 */
-				String dbPropsPath = System.getProperty( "catalina.base" ) + "/webapps/caughtup/WEB-INF/classes/db.properties";
+				
 				FileInputStream in = new FileInputStream(dbPropsPath);
 				
 				
@@ -41,7 +42,7 @@ public class MySQLDriver {
 				connection = DriverManager.getConnection(url, user, passwd);
 				System.out.println("Connection opened");
 			} catch (IOException e) {
-				System.out.println("Cannot open properties file to read DB options");
+				System.out.printf("Cannot open properties file '%s' to read DB options\n", dbPropsPath);
 				System.out.println("Catalina Base:"+ System.getProperty( "catalina.base" ));
 			} catch (InstantiationException ex) {
 				System.err.println("Cannot instantiate a database driver instance.");
@@ -61,7 +62,7 @@ public class MySQLDriver {
 		if (sqlProps == null) {
 			sqlProps = new Properties();
 			FileInputStream in;
-			String sqlPropsPath = System.getProperty( "catalina.base" ) + "/wtpwebapps/CaughtUp-Server/WEB-INF/classes/SQLQueries.properties";
+			String sqlPropsPath = System.getProperty( "catalina.base" ) + "/webapps/caughtup/WEB-INF/classes/SQLQueries.properties";
 			try {
 				in = new FileInputStream(sqlPropsPath);
 				sqlProps.load(in);
