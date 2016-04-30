@@ -65,7 +65,6 @@ CREATE TABLE `news_source` (
   `base_url` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
   `description` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
   `rss_url` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `latest_article` datetime DEFAULT NULL,
   PRIMARY KEY (`resource_id`),
   KEY `news_source_resource_fk_idx` (`resource_id`),
   CONSTRAINT `news_source_resource_fk` FOREIGN KEY (`resource_id`) REFERENCES `resource` (`resource_id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -82,7 +81,7 @@ DROP TABLE IF EXISTS `resource`;
 CREATE TABLE `resource` (
   `resource_id` bigint(20) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`resource_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -108,7 +107,7 @@ CREATE TABLE `user` (
   UNIQUE KEY `username_UNIQUE` (`username`),
   KEY `resource_fk_idx` (`resource_id`),
   CONSTRAINT `user_resource_fk` FOREIGN KEY (`resource_id`) REFERENCES `resource` (`resource_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -120,4 +119,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-04-29 17:54:29
+-- Dump completed on 2016-04-29 21:16:24
