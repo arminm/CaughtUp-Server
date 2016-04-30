@@ -32,3 +32,6 @@ file:
 # Ignore any ssh key files
 *.pem
 *.csv 
+
+# Ignore db properties
+db.properties
