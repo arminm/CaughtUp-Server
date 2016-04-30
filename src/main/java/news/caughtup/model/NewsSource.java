@@ -3,19 +3,29 @@ package news.caughtup.model;
 import java.util.Date;
 
 public class NewsSource {
+    private int resourceId;
     private String name;
     private String baseURL;
     private String description;
     private String rssURL;
     private Date latestArticleDate;
     
-    public NewsSource(String name, String baseURL, String description, String rssURL, Date latestArticleDate) {
+    public NewsSource(int resourceId, String name, String baseURL, String description, String rssURL, Date latestArticleDate) {
         super();
+        this.resourceId = resourceId;
         this.name = name;
         this.baseURL = baseURL;
         this.description = description;
         this.rssURL = rssURL;
         this.latestArticleDate = latestArticleDate;
+    }
+    
+    public int getResourceId() {
+        return resourceId;
+    }
+
+    public void setResourceId(int resourceId) {
+        this.resourceId = resourceId;
     }
 
     public String getName() {

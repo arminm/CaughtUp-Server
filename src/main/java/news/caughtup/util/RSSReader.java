@@ -44,7 +44,7 @@ public class RSSReader extends TimerTask {
                     if ((latestArticleDate != null && articleDate.after(latestArticleDate)) 
                         || latestArticleDate == null) {
                         newLatestArticleDate = articleDate;
-                        Article article = new Article(entry.getTitle(), entry.getPublishedDate(), 
+                        Article article = new Article(entry.getTitle(), newsSource.getResourceId(), entry.getPublishedDate(), 
                                 entry.getDescription().toString(), entry.getUri());
                         // Save the new article in the Database
                         ArticleDBAdapter.saveArticle(article);
