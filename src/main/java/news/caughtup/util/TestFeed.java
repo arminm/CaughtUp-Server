@@ -1,30 +1,46 @@
 package news.caughtup.util;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import news.caughtup.database.NewsSourceDBAdapter;
 import news.caughtup.model.NewsSource;
 import news.caughtup.model.NewsSourceList;
 
 public class TestFeed {
     public static void main(String[] args) {
         
+        /* Insert test news sources */
+        try {
+            NewsSourceDBAdapter.saveNewsSource(new NewsSource(-1, "cnn", "http://www.cnn.com", "CNN news", 
+                    "http://rss.cnn.com/rss/cnn_topstories.rss", new Date(1)));
+            NewsSourceDBAdapter.saveNewsSource(new NewsSource(-1, "bbc", "http://www.bbc.com", "BBC news", 
+                    "http://feeds.bbci.co.uk/news/world/us_and_canada/rss.xml?edition=int", new Date(1)));
+        } catch (SQLException e) {
+           System.err.println("Failed while trying to insert a news source");
+           System.err.println(e);
+        }
+        
         /* Just for testing the RSS feed */
         NewsSourceList newsSourceList = NewsSourceList.getNewsSourceList();
-        SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
+        try {
+            newsSourceList.setNewsSourcesMap(NewsSourceDBAdapter.getNewsSources());
+        } catch (SQLException e) {
+            System.err.println("Failed to get available news sources");
+            System.err.println(e);
+        }
+        /*SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
         Date date = null;
         try {
             date = formatter.parse("Fri Apr 29 13:15:20 PDT 2016");
         } catch (ParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            
         }
-        // TODO get the news source list from the database
         newsSourceList.addToNewsSourceList(new NewsSource(1, "cnn", "http://cnn.com", "", 
                 "http://feeds.bbci.co.uk/news/world/us_and_canada/rss.xml?edition=int", date));
+        */
         TimerTask rss = new RSSReader(newsSourceList);
         Timer timer = new Timer(false);
         timer.scheduleAtFixedRate(rss, 0, 5*1000);

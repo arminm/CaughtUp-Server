@@ -67,4 +67,13 @@ public class NewsSource {
     public void setLatestArticleDate(Date latestArticleDate) {
         this.latestArticleDate = latestArticleDate;
     }
+    
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("name:").append(name).append(",");
+        sb.append("baseURL:").append(baseURL).append(",");
+        sb.append("description:").append(description).append(",");
+        sb.append("rssURL:").append(rssURL).append(",");
+        return sb.toString();
+    }
 }

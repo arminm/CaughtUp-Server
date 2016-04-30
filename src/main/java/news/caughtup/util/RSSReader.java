@@ -32,6 +32,7 @@ public class RSSReader extends TimerTask {
         try {
             Map<String, NewsSource> newsSourcesMap = new HashMap<String, NewsSource>(); 
             for (NewsSource newsSource: newsSourceList.getNewsSources()) {
+                System.out.println("Retrieving articles for news source: " + newsSource.getName());
                 URL feedUrl = new URL(newsSource.getRssURL());
                 SyndFeedInput input = new SyndFeedInput();
                 SyndFeed feed = input.build(new XmlReader(feedUrl));
