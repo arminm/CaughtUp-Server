@@ -3,6 +3,7 @@ package news.caughtup.util;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -58,7 +59,7 @@ public class RSSReader extends TimerTask {
                     }
                 }
                 System.out.println("New Latest: " + newLatestArticleDate);
-                newsSource.setLatestArticleDate(newLatestArticleDate);
+                newsSource.setLatestArticleDate(new Timestamp(newLatestArticleDate.getTime()));
                 newsSourcesMap.put(newsSource.getName(), newsSource);
             }
             newsSourceList.setNewsSourcesMap(newsSourcesMap);

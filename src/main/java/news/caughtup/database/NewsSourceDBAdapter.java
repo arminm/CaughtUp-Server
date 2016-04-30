@@ -2,8 +2,8 @@ package news.caughtup.database;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,7 +31,7 @@ public class NewsSourceDBAdapter extends DBAdapter {
                     (String) newsSourceData.get("base_url"),
                     (String) newsSourceData.get("description"),
                     (String) newsSourceData.get("rss_url"),
-                    new Date(1));
+                    (Timestamp) newsSourceData.get("latest_article_date"));
             newsSourcesMap.put(newsSource.getName(), newsSource);
         }
         return newsSourcesMap;
@@ -45,6 +45,7 @@ public class NewsSourceDBAdapter extends DBAdapter {
         ps.setString(++index, newsSource.getBaseURL());
         ps.setString(++index, newsSource.getDescription());
         ps.setString(++index, newsSource.getRssURL());
+        ps.setTimestamp(++index, newsSource.getLatestArticleDate());
         ps.executeUpdate();
         System.out.printf("NewsSource saved in the database: %s\n", newsSource.toString());
 

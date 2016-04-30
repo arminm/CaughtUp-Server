@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -55,9 +56,9 @@ public class TestS3Servlet extends HttpServlet {
         /* Insert test news sources */
         try {
             NewsSourceDBAdapter.saveNewsSource(new NewsSource(-1, "cnn", "http://www.cnn.com", "CNN news", 
-                    "http://rss.cnn.com/rss/cnn_topstories.rss", new Date(1)));
+                    "http://rss.cnn.com/rss/cnn_topstories.rss", new Timestamp(1)));
             NewsSourceDBAdapter.saveNewsSource(new NewsSource(-1, "bbc", "http://www.bbc.com", "BBC news", 
-                    "http://feeds.bbci.co.uk/news/world/us_and_canada/rss.xml?edition=int", new Date(1)));
+                    "http://feeds.bbci.co.uk/news/world/us_and_canada/rss.xml?edition=int", new Timestamp(1)));
         } catch (SQLException e) {
            System.err.println("Failed while trying to insert a news source");
            System.err.println(e);
