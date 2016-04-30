@@ -43,11 +43,13 @@ public class RSSReader extends TimerTask {
                         newLatestArticleDate = articleDate;
                         Article article = new Article(entry.getTitle(), entry.getPublishedDate(), 
                                 entry.getDescription().toString(), entry.getUri());
+                        // TODO update the value of latestArticle for this newsSource in the DB
+                        // Save the new article in the Database
                         ArticleDBAdapter.saveArticle(article);
-                        System.out.println(article.toString());
+//                        System.out.println(article.toString());
                     }
                 }
-                System.out.println("New latest date: " + newLatestArticleDate);
+//                System.out.println("New latest date: " + newLatestArticleDate);
             }
         }catch (MalformedURLException e) {
             System.err.println("Bad RSS feed URL");
