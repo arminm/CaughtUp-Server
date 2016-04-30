@@ -23,7 +23,7 @@ public class TestFeed {
             e.printStackTrace();
         }
         // TODO get the news source list from the database
-        newsSourceList.addToNewsSourceList(new NewsSource("cnn", "http://cnn.com", "", 
+        newsSourceList.addToNewsSourceList(new NewsSource(1, "cnn", "http://cnn.com", "", 
                 "http://feeds.bbci.co.uk/news/world/us_and_canada/rss.xml?edition=int", date));
         TimerTask rss = new RSSReader(newsSourceList);
         Timer timer = new Timer(false);
