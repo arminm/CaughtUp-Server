@@ -54,7 +54,7 @@ public class TestS3Servlet extends HttpServlet {
         out.println(pictureURL);
         */
         /* Insert test news sources */
-        try {
+        /*try {
             NewsSourceDBAdapter.saveNewsSource(new NewsSource(-1, "cnn", "http://www.cnn.com", "CNN news", 
                     "http://rss.cnn.com/rss/cnn_topstories.rss", new Timestamp(1)));
             NewsSourceDBAdapter.saveNewsSource(new NewsSource(-1, "bbc", "http://www.bbc.com", "BBC news", 
@@ -62,7 +62,7 @@ public class TestS3Servlet extends HttpServlet {
         } catch (SQLException e) {
            System.err.println("Failed while trying to insert a news source");
            System.err.println(e);
-        }
+        }*/
         
         /* Just for testing the RSS feed */
         NewsSourceList newsSourceList = NewsSourceList.getNewsSourceList();
