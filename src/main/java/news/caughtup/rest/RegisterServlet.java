@@ -19,7 +19,7 @@ public class RegisterServlet extends HttpServlet {
 	private static final UserList userList = UserList.getUserList();
 
 	/**
-	 * [POST] /login/:username
+	 * [POST] /register/:username
 	 */
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

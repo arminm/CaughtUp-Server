@@ -3,27 +3,27 @@ package news.caughtup.model;
 import java.sql.Timestamp;
 
 public class Article {
-	private Long articleID;
-	private Long resourceID;
+	private Long articleId;
+	private Long resourceId;
 	private String title;
 	private Timestamp date;
 	private String summary;
 	private String articleURI;
 
-	public Article(Long articleID, Long resourceID, String title, Timestamp date, String summary, String articleURI) {
-		this.articleID = articleID;
-		this.resourceID = resourceID;
+	public Article(Long articleId, Long resourceId, String title, Timestamp date, String summary, String articleURI) {
+		this.articleId = articleId;
+		this.resourceId = resourceId;
 		this.title = title;
 		this.date = date;
 		this.summary = summary;
 		this.articleURI = articleURI;
 	}
 	
-	public synchronized Long getResourceID() {
-		return resourceID == null ? 0 : resourceID;
+	public synchronized Long getResourceId() {
+		return resourceId == null ? 0 : resourceId;
 	}
-	public synchronized Long getArticleID() {
-		return articleID == null ? 0 : articleID;
+	public synchronized Long getArticleId() {
+		return articleId == null ? 0 : articleId;
 	}
 	public String getTitle() {
 		return title;

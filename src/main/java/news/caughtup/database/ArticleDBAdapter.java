@@ -9,7 +9,6 @@ import java.util.HashMap;
 import news.caughtup.model.Article;
 
 public class ArticleDBAdapter extends DBAdapter {
-	private static final int baseIndex = 1;
 
 	/**
 	 * Saves (<b>INSERT</b>s) an article into the DB.
@@ -19,7 +18,7 @@ public class ArticleDBAdapter extends DBAdapter {
 	public static synchronized void saveArticle(Article article) throws SQLException {
 		PreparedStatement ps = driver.getPreparedStatement("insertArticle");
 		int index = baseIndex;
-		ps.setLong(baseIndex, article.getResourceID());
+		ps.setLong(baseIndex, article.getResourceId());
 		ps.setString(++index, article.getTitle());
 		ps.setTimestamp(++index, article.getDate());
 		ps.setString(++index, article.getSummary());
@@ -39,7 +38,7 @@ public class ArticleDBAdapter extends DBAdapter {
 		ps.setTimestamp(++index, article.getDate());
 		ps.setString(++index, article.getSummary());
 		ps.setString(++index, article.getArticleURI());
-		ps.setLong(++index, article.getArticleID());
+		ps.setLong(++index, article.getArticleId());
 		ps.executeUpdate();
 	}
 
