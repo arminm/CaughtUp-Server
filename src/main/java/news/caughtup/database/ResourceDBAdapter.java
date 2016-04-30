@@ -9,11 +9,11 @@ public class ResourceDBAdapter extends DBAdapter {
 		PreparedStatement statement = driver.getPreparedStatement("createResource");
 		statement.executeUpdate();
 		ResultSet result = statement.getGeneratedKeys();
-        if(result.next())
-        {
-            return result.getLong(1);
-        } else {
-        	return new Long(-1);
-        }
+		if(result.next())
+		{
+			return result.getLong(baseIndex);
+		} else {
+			return errorId;
+		}
 	}
 }
