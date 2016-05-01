@@ -24,7 +24,6 @@ import news.caughtup.model.NewsSource;
 import news.caughtup.model.NewsSourceList;
 import news.caughtup.s3.S3Proxy;
 import news.caughtup.util.RSSReader;
-import news.caughtup.util.TestFeed;
 
 
 public class TestS3Servlet extends HttpServlet {

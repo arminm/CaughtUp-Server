@@ -11,11 +11,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import news.caughtup.database.UserDBAdapter;
 import news.caughtup.model.User;
+import news.caughtup.model.UserList;
 import news.caughtup.util.Helpers;
 
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	private static final UserList userList = UserList.getUserList();
+	
 	/**
 	 * [POST] /login/:username
 	 */
@@ -42,8 +44,9 @@ public class LoginServlet extends HttpServlet {
 				resp.setStatus(403);
 				out.println(Helpers.getErrorJSON("Access Denied."));
 			} else {
-			    user.setPassword(null);
-				out.println(Helpers.getGson().toJson(user));
+			    existingUser.setPassword(null);
+			    userList.addToUserList(existingUser);
+				out.println(Helpers.getGson().toJson(existingUser));
 			}
 		} catch (SQLException e) {
 			System.err.println("Failed to get user with username: " + username);

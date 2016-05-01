@@ -59,7 +59,7 @@ public class UserDBAdapter extends DBAdapter {
 		ps.setString(baseIndex, user.getFullName());
 		ps.setString(++index, user.getProfilePictureURL());
 		ps.setInt(++index, user.getAge().intValue());
-		ps.setString(++index, user.getGenderStr());
+		ps.setString(++index, user.getGender().toString());
 		ps.setString(++index, user.getLocation());
 		ps.setString(++index, user.getEmail());
 		ps.setString(++index, user.getAboutMe());
@@ -72,11 +72,12 @@ public class UserDBAdapter extends DBAdapter {
 	 * @param user
 	 * @throws SQLException 
 	 */
-	public static synchronized void updateUserPassword(User user) throws SQLException {
+	public static synchronized void updateUserPassword(User user, String oldPassword) throws SQLException {
 		PreparedStatement ps = driver.getPreparedStatement("updateUserPassword");
 		int index = baseIndex;
 		ps.setString(baseIndex, user.getPassword());
 		ps.setString(++index, user.getUsername());
+		ps.setString(++index, oldPassword);
 		ps.executeUpdate();
 	}
 
