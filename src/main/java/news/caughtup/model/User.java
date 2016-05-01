@@ -16,7 +16,7 @@ public class User {
     private String location;
     private String aboutMe;
 
-    public User(Long userId, Long resourceId, String username, String password, String fullName, Integer age, String gender, 
+    public User(Long userId, Long resourceId, String username, String password, String fullName, Integer age, Gender gender, 
             String email, String profilePictureURL, String location, String aboutMe) {
     	this.userId = userId;
     	this.resourceId = resourceId;
@@ -24,7 +24,7 @@ public class User {
         this.password = password;
         this.fullName = fullName;
         this.age = age;
-        this.gender = Gender.parseGenderString(gender);
+        this.gender = gender;
         this.email = email;
         this.profilePictureURL = profilePictureURL;
         this.location = location;
@@ -42,7 +42,7 @@ public class User {
         this.password = (String) userData.get("password");
         this.fullName = (String) userData.get("full_name");
         this.age = (Integer) userData.get("age");
-        this.gender = Gender.parseGenderString((String) userData.get("gender"));
+        this.gender = (Gender) userData.get("gender");
         this.email = (String) userData.get("email");
         this.profilePictureURL = (String) userData.get("profile_picture_url");
         this.location = (String) userData.get("location");
@@ -91,15 +91,7 @@ public class User {
 
     public Gender getGender() {
         return gender;
-    }
-    
-    public String getGenderStr() {
-        return Gender.getGenderString(this.gender);
-    }
-    
-    public void setGenderStr(String genderStr) {
-        this.gender = Gender.parseGenderString(genderStr);
-    }
+    } 
 
     public void setGender(Gender gender) {
         this.gender = gender;

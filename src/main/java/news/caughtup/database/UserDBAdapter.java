@@ -59,7 +59,7 @@ public class UserDBAdapter extends DBAdapter {
 		ps.setString(baseIndex, user.getFullName());
 		ps.setString(++index, user.getProfilePictureURL());
 		ps.setInt(++index, user.getAge().intValue());
-		ps.setString(++index, user.getGenderStr());
+		ps.setString(++index, user.getGender().toString());
 		ps.setString(++index, user.getLocation());
 		ps.setString(++index, user.getEmail());
 		ps.setString(++index, user.getAboutMe());

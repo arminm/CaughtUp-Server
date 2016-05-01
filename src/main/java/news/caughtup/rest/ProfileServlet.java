@@ -61,7 +61,6 @@ public class ProfileServlet extends HttpServlet {
         String username = substrings[substrings.length - 1];
         User user = (User) Helpers.getObjectFromJSON(req, User.class);
         user.setUsername(username);
-        System.out.println(user.toString());
         String isPicture = req.getParameter("picture");
         if (isPicture.equals("true")) {
             out.println("Successfully updated profile picture of user: " + username);
