@@ -18,7 +18,7 @@ public class ArticleDBAdapter extends DBAdapter {
 	public static synchronized void saveArticle(Article article) throws SQLException {
 		PreparedStatement ps = driver.getPreparedStatement("insertArticle");
 		int index = baseIndex;
-		System.out.println("Article: " + article.toString());
+//		System.out.println("Article: " + article.toString());
 		ps.setLong(baseIndex, article.getResourceId());
 		ps.setString(++index, article.getTitle());
 		ps.setTimestamp(++index, article.getDate());

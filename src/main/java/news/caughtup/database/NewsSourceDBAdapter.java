@@ -61,4 +61,22 @@ public class NewsSourceDBAdapter extends DBAdapter {
 
         return true;
     }
+    
+    
+    /**
+     * Update an existing news source in the DB
+     * @param newsSource
+     * @throws SQLException
+     */
+    public static synchronized void updateNewsSource(NewsSource newsSource) throws SQLException {
+        PreparedStatement ps = driver.getPreparedStatement("updateNewsSource");
+        int index = baseIndex;
+        ps.setString(baseIndex, newsSource.getName());
+        ps.setString(++index, newsSource.getBaseURL());
+        ps.setString(++index, newsSource.getDescription());
+        ps.setString(++index, newsSource.getRssURL());
+        ps.setTimestamp(++index, newsSource.getLatestArticleDate());
+        ps.setLong(++index, newsSource.getResourceId());
+        ps.executeUpdate();
+    }
 }
