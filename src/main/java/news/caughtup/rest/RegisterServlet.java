@@ -32,12 +32,22 @@ public class RegisterServlet extends HttpServlet {
 		User user = (User) Helpers.getObjectFromJSON(req, User.class);
 		user.setUsername(username);
 
-		// Add user to user list and remove password for response
+		User existingUser = null;
 		try {
-			UserDBAdapter.saveUser(user);
-			userList.addToUserList(user);
-			user.setPassword(null);
-			out.println(Helpers.getGson().toJson(user));
+			//Try to get user from DB
+			existingUser = UserDBAdapter.getUser(username);
+			
+			// If user exists, the username is taken
+			if (existingUser != null) {
+				resp.setStatus(403);
+				out.println(Helpers.getErrorJSON("Username taken."));
+			} else {
+				// Add user to user list and remove password for response
+				UserDBAdapter.saveUser(user);
+				userList.addToUserList(user);
+				user.setPassword(null);
+				out.println(Helpers.getGson().toJson(user));
+			}
 		} catch (SQLException e) {
 			System.err.println("Failed to save user in DB:" + user.toString());
 			System.err.println(e);
