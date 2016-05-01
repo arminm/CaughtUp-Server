@@ -31,4 +31,10 @@ public class Helpers {
 		jsonObject.addProperty("error", message);
 		return Helpers.getGson().toJson(jsonObject);
 	}
+	
+	public static String getMessageJSON(String message) {
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("message", message);
+		return Helpers.getGson().toJson(jsonObject);
+	}
 }

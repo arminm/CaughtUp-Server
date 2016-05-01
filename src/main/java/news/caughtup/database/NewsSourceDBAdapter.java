@@ -29,13 +29,7 @@ public class NewsSourceDBAdapter extends DBAdapter {
         // Create the NewsSource map object
         Map<String, NewsSource> newsSourcesMap = new HashMap<>();
         for (HashMap<String, Object> newsSourceData: result) {
-            NewsSource newsSource = new NewsSource(
-            		(Long) newsSourceData.get("resource_id"),
-                    (String) newsSourceData.get("name"),
-                    (String) newsSourceData.get("base_url"),
-                    (String) newsSourceData.get("description"),
-                    (String) newsSourceData.get("rss_url"),
-                    (Timestamp) newsSourceData.get("latest_article_date"));
+            NewsSource newsSource = new NewsSource(newsSourceData);
             newsSourcesMap.put(newsSource.getName(), newsSource);
         }
         return newsSourcesMap;
