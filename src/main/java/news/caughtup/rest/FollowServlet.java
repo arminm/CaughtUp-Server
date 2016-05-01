@@ -21,7 +21,7 @@ public class FollowServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * [GET] /follow?user_id=&type=[users,else]
+	 * [GET] /follow?user_id=&type=[users, news_sources, all]
 	 */
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -31,7 +31,7 @@ public class FollowServlet extends HttpServlet {
 		String userIdStr = req.getParameter("user_id");
 		Long userId = Long.valueOf(userIdStr);
 		String type = req.getParameter("type");
-		System.out.printf("UserId: %d, Type: %s\n", userId, type);
+//		System.out.printf("UserId: %d, Type: %s\n", userId, type);
 		try {
 			if (type.equals("users")) {
 				ArrayList<User> users = FollowerDBAdapter.getUserFollows(userId);

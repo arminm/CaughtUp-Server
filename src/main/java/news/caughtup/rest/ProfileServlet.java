@@ -3,12 +3,15 @@ package news.caughtup.rest;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import news.caughtup.database.FollowerDBAdapter;
 import news.caughtup.database.UserDBAdapter;
 import news.caughtup.model.User;
 import news.caughtup.util.Helpers;
@@ -38,7 +41,15 @@ public class ProfileServlet extends HttpServlet {
                 resp.setStatus(404);
                 out.println(Helpers.getErrorJSON("Internal error"));
             } else {
-                out.println(Helpers.getGson().toJson(existingUser));
+            	HashMap<String, Object> results = new HashMap<String, Object>();
+            	existingUser.setPassword(null);
+            	results.put("profile", existingUser);
+            	ArrayList<User> followers = FollowerDBAdapter.getFollowers(existingUser.getResourceId());
+            	for (User user: followers) {
+            		user.setPassword(null);
+            	}
+            	results.put("followers", followers);
+                out.println(Helpers.getGson().toJson(results));
             }
         } catch (SQLException e) {
             System.err.println("Failed to get user with username: " + username);

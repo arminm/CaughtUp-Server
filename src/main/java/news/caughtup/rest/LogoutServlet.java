@@ -1,4 +1,4 @@
-package news.caughtup.rest;
+	package news.caughtup.rest;
 
 import java.io.IOException;
 import java.io.PrintWriter;
