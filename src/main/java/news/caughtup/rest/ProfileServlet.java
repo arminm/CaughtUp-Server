@@ -43,9 +43,7 @@ public class ProfileServlet extends HttpServlet {
             } else {
             	HashMap<String, Object> results = new HashMap<String, Object>();
             	results.put("profile", existingUser);
-            	System.out.println("User resource_id: " + existingUser.getResourceId());
             	ArrayList<User> followers = FollowerDBAdapter.getFollowers(existingUser.getResourceId());
-            	
             	results.put("followers", followers);
                 out.println(Helpers.getGson().toJson(results));
             }

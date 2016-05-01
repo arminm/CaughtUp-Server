@@ -27,7 +27,7 @@ public class FollowerDBAdapter extends DBAdapter {
 		ArrayList<HashMap<String, Object>> results = driver.executeStatement(ps);
 
 		for (HashMap<String,Object> userData : results) {
-			System.out.println("Got user data for:"+(String) userData.get("full_name"));
+//			System.out.println("Got user data for:"+(String) userData.get("full_name"));
 			User user = new User(userData);
 			if (user.getUserId() != 0) {
 				followees.add(user);

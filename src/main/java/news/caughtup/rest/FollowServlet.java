@@ -31,7 +31,7 @@ public class FollowServlet extends HttpServlet {
 		String userIdStr = req.getParameter("user_id");
 		Long userId = Long.valueOf(userIdStr);
 		String type = req.getParameter("type");
-		System.out.printf("UserId: %d, Type: %s\n", userId, type);
+//		System.out.printf("UserId: %d, Type: %s\n", userId, type);
 		try {
 			if (type.equals("users")) {
 				ArrayList<User> users = FollowerDBAdapter.getUserFollows(userId);
