@@ -1,6 +1,7 @@
 package news.caughtup.model;
 
 import java.sql.Timestamp;
+import java.util.HashMap;
 
 public class Article {
 	private Long articleId;
@@ -18,7 +19,19 @@ public class Article {
 		this.summary = summary;
 		this.articleURI = articleURI;
 	}
-	
+
+	public Article(HashMap<String,Object> articleData) {
+		if (articleData == null || articleData.size() == 0) {
+			return;
+		}
+		this.articleId = (Long) articleData.get("article_id");
+		this.resourceId = (Long) articleData.get("resource_id");
+		this.title = (String) articleData.get("title"); 
+		this.date = (Timestamp) articleData.get("date"); 
+		this.summary = (String) articleData.get("summary"); 
+		this.articleURI = (String) articleData.get("article_url");
+	}
+
 	public synchronized Long getResourceId() {
 		return resourceId == null ? 0 : resourceId;
 	}
@@ -49,14 +62,14 @@ public class Article {
 	public void setArticleURI(String articleURI) {
 		this.articleURI = articleURI;
 	}
-	
+
 	public String toString() {
-	    StringBuilder sb = new StringBuilder();
-        sb.append("resourceId:").append(resourceId).append(",");
-        sb.append("title:").append(title).append(",");
-        sb.append("date:").append(date).append(",");
-        sb.append("summary:").append(summary).append(",");
-        sb.append("articleURI:").append(articleURI);
-        return sb.toString();
+		StringBuilder sb = new StringBuilder();
+		sb.append("resourceId:").append(resourceId).append(",");
+		sb.append("title:").append(title).append(",");
+		sb.append("date:").append(date).append(",");
+		sb.append("summary:").append(summary).append(",");
+		sb.append("articleURI:").append(articleURI);
+		return sb.toString();
 	}
 }

@@ -20,11 +20,6 @@ public class NewsSourceDBAdapter extends DBAdapter {
         // Get all news sources' data from database
         PreparedStatement ps = driver.getPreparedStatement("getNewsSources");
         ArrayList<HashMap<String,Object>> result = driver.executeStatement(ps);
-
-        // If result is empty return an empty list
-        if (result == null || result.size() == 0) {
-            return null;
-        }
         
         // Create the NewsSource map object
         Map<String, NewsSource> newsSourcesMap = new HashMap<>();

@@ -50,7 +50,7 @@ public class ArticleDBAdapter extends DBAdapter {
 	 */
 	public static synchronized void deleteArticle(Long articleID) throws SQLException {
 		if (articleID == null) {
-			articleID = new Long(-1);
+			articleID = errorId;
 		}
 		PreparedStatement ps = driver.getPreparedStatement("deleteArticle");
 		ps.setLong(baseIndex, articleID);
@@ -72,14 +72,7 @@ public class ArticleDBAdapter extends DBAdapter {
 		ps.setString(baseIndex, source);
 		ArrayList<HashMap<String, Object>> results = driver.executeStatement(ps);
 		for (HashMap<String,Object> articleData : results) {
-			Article article = new Article(
-					(Long) articleData.get("article_id"),
-					(Long) articleData.get("resource_id"),
-					(String) articleData.get("title"), 
-					(Timestamp) articleData.get("date"), 
-					(String) articleData.get("summary"), 
-					(String) articleData.get("article_url")
-					);
+			Article article = new Article(articleData);
 			articles.add(article);
 		}
 		return articles;
