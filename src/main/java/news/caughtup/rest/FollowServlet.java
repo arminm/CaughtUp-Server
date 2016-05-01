@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -30,25 +31,24 @@ public class FollowServlet extends HttpServlet {
 		String userIdStr = req.getParameter("user_id");
 		Long userId = Long.valueOf(userIdStr);
 		String type = req.getParameter("type");
+		System.out.printf("UserId: %d, Type: %s\n", userId, type);
 		try {
 			if (type.equals("users")) {
 				ArrayList<User> users = FollowerDBAdapter.getUserFollows(userId);
 				// Send JSON response back to the client
-				if (users == null) {
-					resp.setStatus(400);
-					out.println(Helpers.getErrorJSON("Bad Request."));
-				} else {
-					out.println(Helpers.getGson().toJson(users));
-				}
-			} else {
+				out.println(Helpers.getGson().toJson(users));
+			} else if (type.equals("news_sources")) {
 				ArrayList<NewsSource> newsSources = FollowerDBAdapter.getNewsSourceFollows(userId);
 				// Send JSON response back to the client
-				if (newsSources == null) {
-					resp.setStatus(400);
-					out.println(Helpers.getErrorJSON("Bad Request."));
-				} else {
-					out.println(Helpers.getGson().toJson(newsSources));
-				}
+				out.println(Helpers.getGson().toJson(newsSources));
+			} else {
+				HashMap<String, Object> resMap = new HashMap<String,Object>();
+				ArrayList<User> users = FollowerDBAdapter.getUserFollows(userId);
+				resMap.put("users", users);
+				ArrayList<NewsSource> newsSources = FollowerDBAdapter.getNewsSourceFollows(userId);
+				resMap.put("news_sources", newsSources);
+				// Send JSON response back to the client
+				out.println(Helpers.getGson().toJson(resMap));
 			}
 
 		} catch (SQLException e) {
