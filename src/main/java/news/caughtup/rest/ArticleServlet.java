@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -29,15 +30,17 @@ public class ArticleServlet extends HttpServlet {
 		String source = req.getParameter("source");
 
 		try {
+            HashMap<String, Object> result = new HashMap<String, Object>();
 			// Get articles from DB
 			ArrayList<Article> articles = ArticleDBAdapter.getArticles(source);
+			result.put("articles", articles);
 
 			// Send JSON response back to the client
 			if (source == null) {
 				resp.setStatus(400);
 				out.println(Helpers.getErrorJSON("Bad Request. Source cannot be null."));
 			} else {
-				out.println(Helpers.getGson().toJson(articles));
+				out.println(Helpers.getGson().toJson(result));
 			}
 		} catch (SQLException e) {
 			System.err.println("Failed to get articles for source: " + source);
