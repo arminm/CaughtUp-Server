@@ -28,7 +28,7 @@ public class FollowerDBAdapter extends DBAdapter {
 
 		for (HashMap<String,Object> userData : results) {
 			User user = new User(userData);
-			if (user != null) {
+			if (user.getUserId() == 0) {
 				followees.add(user);
 			}
 		}
@@ -51,7 +51,7 @@ public class FollowerDBAdapter extends DBAdapter {
 		ArrayList<HashMap<String, Object>> results = driver.executeStatement(ps);
 		for (HashMap<String,Object> newsSourceData : results) {
 			NewsSource newsSource = new NewsSource(newsSourceData);
-			if (newsSource != null) {
+			if (newsSource.getResourceId() == 0) {
 				newsSources.add(newsSource);
 			}
 		}
@@ -75,7 +75,7 @@ public class FollowerDBAdapter extends DBAdapter {
 
 		for (HashMap<String,Object> userData : results) {
 			User user = new User(userData);
-			if (user != null) {
+			if (user.getUserId() == 0) {
 				followers.add(user);
 			}
 		}
