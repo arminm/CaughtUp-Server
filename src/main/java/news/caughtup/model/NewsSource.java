@@ -1,6 +1,7 @@
 package news.caughtup.model;
 
 import java.sql.Timestamp;
+import java.util.HashMap;
 
 public class NewsSource {
     private Long resourceId;
@@ -18,6 +19,18 @@ public class NewsSource {
         this.description = description;
         this.rssURL = rssURL;
         this.latestArticleDate = latestArticleDate;
+    }
+    
+    public NewsSource(HashMap<String, Object> newsSourceData) {
+    	if (newsSourceData == null || newsSourceData.size() == 0) {
+    		return;
+    	}
+    	this.resourceId = (Long) newsSourceData.get("resource_id");
+        this.name = (String) newsSourceData.get("name");
+        this.baseURL = (String) newsSourceData.get("base_url");
+        this.description = (String) newsSourceData.get("description");
+        this.rssURL = (String) newsSourceData.get("rss_url");
+        this.latestArticleDate = (Timestamp) newsSourceData.get("latest_article_date");
     }
     
     public Long getResourceId() {

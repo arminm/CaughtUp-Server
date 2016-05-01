@@ -21,7 +21,7 @@ public class MySQLDriver {
 
 	public MySQLDriver() {
 		if (connection == null) {
-		    String dbPropsPath = System.getProperty( "catalina.base" ) + "/webapps/db.properties";
+		    String dbPropsPath = System.getProperty( "catalina.base" ) + "/wtpwebapps/CaughtUp-Server/WEB-INF/classes/db.properties";
 			try {
 				/* Initialize Connection with database */
 				Properties props = new Properties();
@@ -62,7 +62,7 @@ public class MySQLDriver {
 		if (sqlProps == null) {
 			sqlProps = new Properties();
 			FileInputStream in;
-			String sqlPropsPath = System.getProperty( "catalina.base" ) + "/webapps/caughtup/WEB-INF/classes/SQLQueries.properties";
+			String sqlPropsPath = System.getProperty( "catalina.base" ) + "/wtpwebapps/CaughtUp-Server/WEB-INF/classes/SQLQueries.properties";
 			try {
 				in = new FileInputStream(sqlPropsPath);
 				sqlProps.load(in);

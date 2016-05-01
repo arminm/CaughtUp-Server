@@ -10,75 +10,104 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
-
-import news.caughtup.database.ArticleDBAdapter;
-import news.caughtup.model.Article;
+import news.caughtup.database.FollowerDBAdapter;
 import news.caughtup.model.Follow;
+import news.caughtup.model.NewsSource;
+import news.caughtup.model.User;
 import news.caughtup.util.Helpers;
 
 public class FollowServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    /**
-	 * [GET] /follow
+	/**
+	 * [GET] /follow?user_id=&type=[users,else]
 	 */
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        String username = req.getRequestURI().substring(req.getContextPath().length()).split("/")[2];
-//        String resource_id = req.getParameter("resource_id");
-//        PrintWriter out = resp.getWriter();
-//        if (type.equals("users")) {
-//            out.println("Successfully retrieved followers of user: " + username);
-//        } else {
-//            out.println("Successfully retrieved sources followed by user: " + username);
-//        }
-//        
-//        
-//     // Prepare to send JSON response back to the client
-//     		resp.setContentType("application/json");
-//     		PrintWriter out = resp.getWriter();
-//     		
-//     		String source = req.getParameter("source");
-//
-//     		try {
-//     			// Get articles from DB
-//     			ArrayList<Article> articles = ArticleDBAdapter.getArticles(source);
-//
-//     			// Send JSON response back to the client
-//     			if (source == null) {
-//     				resp.setStatus(400);
-//     				out.println(Helpers.getErrorJSON("Bad Request. Source cannot be null."));
-//     			} else {
-//     				out.println(Helpers.getGson().toJson(articles));
-//     			}
-//     		} catch (SQLException e) {
-//     			System.err.println("Failed to get articles for source: " + source);
-//     			System.err.println(e);
-//     			resp.setStatus(500);
-//     			out.println(Helpers.getErrorJSON("Internal Error."));
-//     		}
-    }
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// Prepare to send JSON response back to the client
+		resp.setContentType("application/json");
+		PrintWriter out = resp.getWriter();
+		String userIdStr = req.getParameter("user_id");
+		Long userId = Long.valueOf(userIdStr);
+		String type = req.getParameter("type");
+		try {
+			if (type.equals("users")) {
+				ArrayList<User> users = FollowerDBAdapter.getUserFollows(userId);
+				// Send JSON response back to the client
+				if (users == null) {
+					resp.setStatus(400);
+					out.println(Helpers.getErrorJSON("Bad Request."));
+				} else {
+					out.println(Helpers.getGson().toJson(users));
+				}
+			} else {
+				ArrayList<NewsSource> newsSources = FollowerDBAdapter.getNewsSourceFollows(userId);
+				// Send JSON response back to the client
+				if (newsSources == null) {
+					resp.setStatus(400);
+					out.println(Helpers.getErrorJSON("Bad Request."));
+				} else {
+					out.println(Helpers.getGson().toJson(newsSources));
+				}
+			}
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String username = req.getRequestURI().substring(req.getContextPath().length()).split("/")[2];
-        String follower = req.getParameter("follower");
-        PrintWriter out = resp.getWriter();
-        out.println("Successfully added follower " + follower + " for user: " + username);
-    }
+		} catch (SQLException e) {
+			System.err.println("Failed to get followees/news sources for userId: " + userIdStr);
+			System.err.println(e);
+			resp.setStatus(500);
+			out.println(Helpers.getErrorJSON("Internal Error."));
+		}
 
-    @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        String username = req.getRequestURI().substring(req.getContextPath().length()).split("/")[2];
-//        Gson gson = new Gson();
-//        StringBuilder sb = new StringBuilder();
-//        String s;
-//        while ((s = req.getReader().readLine()) != null) {
-//            sb.append(s);
-//        }
-//        Follow follower = (Follow) gson.fromJson(sb.toString(), Follow.class);
-//        PrintWriter out = resp.getWriter();
-//        out.println("Successfully deleted follower " + follower.getFollower() + " for user: " + username);
-    }
+	}
+
+	/**
+	 * [POST] /follow?user_id=&resource_id=
+	 */
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+		// Prepare to send JSON response back to the client
+		resp.setContentType("application/json");
+		PrintWriter out = resp.getWriter();
+		String userIdStr = req.getParameter("user_id");
+		Long userId = Long.valueOf(userIdStr);
+		String resourceIdStr = req.getParameter("resource_id");
+		Long resourceId = Long.valueOf(resourceIdStr);
+
+		try {
+			Follow follow = new Follow(userId, resourceId);
+			FollowerDBAdapter.addFollower(follow);
+			out.println(Helpers.getMessageJSON("Success"));
+		} catch (SQLException e) {
+			System.err.println("Failed to add follow for userId: " + userIdStr);
+			System.err.println(e);
+			resp.setStatus(500);
+			out.println(Helpers.getErrorJSON("Internal Error."));
+		}
+	}
+
+	/**
+	 * [DELETE] /follow?user_id=&resource_id=
+	 */
+	@Override
+	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// Prepare to send JSON response back to the client
+		resp.setContentType("application/json");
+		PrintWriter out = resp.getWriter();
+		String userIdStr = req.getParameter("user_id");
+		Long userId = Long.valueOf(userIdStr);
+		String resourceIdStr = req.getParameter("resource_id");
+		Long resourceId = Long.valueOf(resourceIdStr);
+
+		try {
+			Follow follow = new Follow(userId, resourceId);
+			FollowerDBAdapter.deleteFollower(follow);
+			out.println(Helpers.getMessageJSON("Success"));
+		} catch (SQLException e) {
+			System.err.println("Failed to delete follow for userId: " + userIdStr);
+			System.err.println(e);
+			resp.setStatus(500);
+			out.println(Helpers.getErrorJSON("Internal Error."));
+		}
+	}
 }
