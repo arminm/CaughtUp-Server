@@ -96,6 +96,6 @@
   	</servlet>  
   	<servlet-mapping>  
     	<servlet-name>Password</servlet-name>  
-    	<url-pattern>/password</url-pattern>  
+    	<url-pattern>/password/*</url-pattern>  
   	</servlet-mapping>
 </web-app>
