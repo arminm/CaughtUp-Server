@@ -47,17 +47,36 @@ public class ProfileServlet extends HttpServlet {
             out.println(Helpers.getErrorJSON("Internal Error."));
         }
     }
-
+    
+    /**
+     * [PUT] /profile/:username?picture={true,false}
+     */
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String username = req.getRequestURI().substring(req.getContextPath().length()).split("/")[2];
-        String isPicture = req.getParameter("picture");
+     // Prepare to send JSON response back to the client
+        resp.setContentType("application/json");
         PrintWriter out = resp.getWriter();
+        
+        String[] substrings = req.getRequestURI().substring(req.getContextPath().length()).split("/");
+        String username = substrings[substrings.length - 1];
+        User user = (User) Helpers.getObjectFromJSON(req, User.class);
+        user.setUsername(username);
+        System.out.println(user.toString());
+        String isPicture = req.getParameter("picture");
         if (isPicture.equals("true")) {
             out.println("Successfully updated profile picture of user: " + username);
         } else {
+            // Update the info of a user in the DB
+            try {
+                UserDBAdapter.updateUser(user);
+                out.println(Helpers.getGson().toJson(user));
+            } catch (SQLException e) {
+                System.err.println("Failed to update user info in DB:" + user.toString());
+                System.err.println(e);
+                resp.setStatus(500);
+                out.println(Helpers.getErrorJSON("Internal Error."));
+            }
             
-            out.println("Successfully updated profile info of user: " + username);
         }
     }
 }
