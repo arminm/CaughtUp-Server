@@ -25,14 +25,14 @@ DROP TABLE IF EXISTS `article`;
 CREATE TABLE `article` (
   `article_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `resource_id` bigint(20) NOT NULL,
-  `title` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `title` text CHARACTER SET utf8,
   `date` datetime DEFAULT NULL,
-  `summary` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `article_url` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `summary` text CHARACTER SET utf8,
+  `article_url` text CHARACTER SET utf8,
   PRIMARY KEY (`article_id`),
   KEY `resource_fk_idx` (`resource_id`),
   CONSTRAINT `article_resource_fk` FOREIGN KEY (`resource_id`) REFERENCES `resource` (`resource_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -62,9 +62,9 @@ DROP TABLE IF EXISTS `news_source`;
 CREATE TABLE `news_source` (
   `resource_id` bigint(20) NOT NULL,
   `name` varchar(40) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `base_url` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `description` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `rss_url` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `base_url` text CHARACTER SET utf8,
+  `description` text CHARACTER SET utf8,
+  `rss_url` text CHARACTER SET utf8,
   `latest_article_date` datetime DEFAULT NULL,
   PRIMARY KEY (`resource_id`),
   KEY `news_source_resource_fk_idx` (`resource_id`),
@@ -82,7 +82,7 @@ DROP TABLE IF EXISTS `resource`;
 CREATE TABLE `resource` (
   `resource_id` bigint(20) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`resource_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -97,12 +97,12 @@ CREATE TABLE `user` (
   `resource_id` bigint(20) NOT NULL,
   `username` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
   `full_name` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `profile_picture_url` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `profile_picture_url` text CHARACTER SET utf8,
   `age` int(11) DEFAULT NULL,
   `gender` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
   `location` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `email` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `about_me` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `about_me` text CHARACTER SET utf8,
   `password` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `username_UNIQUE` (`username`),
@@ -120,4 +120,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-04-30 13:35:33
+-- Dump completed on 2016-04-30 17:33:06

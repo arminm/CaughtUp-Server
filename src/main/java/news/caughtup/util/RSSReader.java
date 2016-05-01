@@ -34,7 +34,7 @@ public class RSSReader extends TimerTask {
 		try {
 			Map<String, NewsSource> newsSourcesMap = new HashMap<String, NewsSource>(); 
 			for (NewsSource newsSource: newsSourceList.getNewsSources()) {
-				System.out.println("Retrieving articles for news source: " + newsSource.getName());
+//				System.out.println("Retrieving articles for news source: " + newsSource.getName());
 				URL feedUrl = new URL(newsSource.getRssURL());
 				SyndFeedInput input = new SyndFeedInput();
 				SyndFeed feed = input.build(new XmlReader(feedUrl));
@@ -45,23 +45,22 @@ public class RSSReader extends TimerTask {
 					latestArticleDate = feeds.get(0).getPublishedDate();
 				}
 				Date newLatestArticleDate = latestArticleDate;
-				System.out.println("Latest: " + newLatestArticleDate);
+//				System.out.println("Latest: " + newLatestArticleDate);
 				for (SyndEntryImpl entry: feeds) {
 					Date articleDate = entry.getPublishedDate();
 					if (articleDate.after(latestArticleDate)) {
-						System.out.println("Article date: " + articleDate);
 						if (articleDate.after(newLatestArticleDate)) {
 							newLatestArticleDate = articleDate;
 						}
 
 						Timestamp articleTimestamp = new Timestamp(entry.getPublishedDate().getTime());
 						Article article = new Article(null, newsSource.getResourceId(), entry.getTitle(), articleTimestamp, 
-								entry.getDescription().toString(), entry.getUri());
+								entry.getDescription().getValue().toString(), entry.getUri());
 						// Save the new article in the Database
 						ArticleDBAdapter.saveArticle(article);
 					}
 				}
-				System.out.println("New Latest: " + newLatestArticleDate);
+//				System.out.println("New Latest: " + newLatestArticleDate);
 				newsSource.setLatestArticleDate(new Timestamp(newLatestArticleDate.getTime()));
 				newsSourcesMap.put(newsSource.getName(), newsSource);
 			}
@@ -76,6 +75,7 @@ public class RSSReader extends TimerTask {
 			System.err.println("Error while trying to parse the file");
 		} catch (SQLException e) {
 			System.err.println("Error while saving article to DB");
+			System.err.println(e);
 		}
 	}
 }

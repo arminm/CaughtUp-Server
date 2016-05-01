@@ -49,4 +49,14 @@ public class Article {
 	public void setArticleURI(String articleURI) {
 		this.articleURI = articleURI;
 	}
+	
+	public String toString() {
+	    StringBuilder sb = new StringBuilder();
+        sb.append("resourceId:").append(resourceId).append(",");
+        sb.append("title:").append(title).append(",");
+        sb.append("date:").append(date).append(",");
+        sb.append("summary:").append(summary).append(",");
+        sb.append("articleURI:").append(articleURI);
+        return sb.toString();
+	}
 }

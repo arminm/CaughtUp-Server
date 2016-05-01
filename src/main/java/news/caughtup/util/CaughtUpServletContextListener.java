@@ -6,7 +6,6 @@ import java.util.TimerTask;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import javax.servlet.annotation.WebListener;
 
 import news.caughtup.database.NewsSourceDBAdapter;
 import news.caughtup.model.NewsSourceList;
@@ -30,7 +29,7 @@ public class CaughtUpServletContextListener implements ServletContextListener {
         }
         TimerTask rss = new RSSReader(newsSourceList);
         timer = new Timer(false);
-        timer.scheduleAtFixedRate(rss, 0, 5*1000);
+        timer.scheduleAtFixedRate(rss, 0, 30*1000);
     }
 
 }
