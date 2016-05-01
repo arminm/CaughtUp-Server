@@ -21,7 +21,7 @@ public class SearchServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * [GET] /search?keyword=&context=
+	 * [GET] /search?keyword=&context=[user, article, news_source, all]
 	 */
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
