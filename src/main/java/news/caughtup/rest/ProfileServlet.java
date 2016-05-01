@@ -69,11 +69,10 @@ public class ProfileServlet extends HttpServlet {
             try {
                 if (user.getPassword() == null) {
                     UserDBAdapter.updateUser(user);
-                    out.println(Helpers.getGson().toJson(user));
                 } else {
                     UserDBAdapter.updateUserPassword(user);
-                    out.println(Helpers.getGson().toJson(user));
                 }
+                out.println(Helpers.getMessageJSON("Success"));
             } catch (SQLException e) {
                 System.err.println("Failed to update user info in DB:" + user.toString());
                 System.err.println(e);
