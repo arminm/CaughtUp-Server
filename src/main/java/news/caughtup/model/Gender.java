@@ -20,4 +20,19 @@ public enum Gender {
     private Gender(String gender) {
         this.gender = gender;
     }
+    
+    public static Gender getGender(String gender) {
+        if (gender == null) {
+            return NONE;
+        }
+        String genderLowerCase = gender.toLowerCase();
+        switch(genderLowerCase) {
+            case "male":
+                return MALE;
+            case "female":
+                return FEMALE;
+            default:
+                return NONE;
+        }
+    }
 }

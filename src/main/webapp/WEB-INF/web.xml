@@ -89,4 +89,13 @@
     	<servlet-name>TestS3</servlet-name>  
     	<url-pattern>/testS3</url-pattern>  
   	</servlet-mapping>
+  	
+  	<servlet>  
+    	<servlet-name>Password</servlet-name>  
+    	<servlet-class>news.caughtup.rest.PasswordServlet</servlet-class>  
+  	</servlet>  
+  	<servlet-mapping>  
+    	<servlet-name>Password</servlet-name>  
+    	<url-pattern>/password</url-pattern>  
+  	</servlet-mapping>
 </web-app>

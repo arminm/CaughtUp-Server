@@ -44,9 +44,9 @@ public class LoginServlet extends HttpServlet {
 				resp.setStatus(403);
 				out.println(Helpers.getErrorJSON("Access Denied."));
 			} else {
-			    user.setPassword(null);
-			    userList.addToUserList(user);
-				out.println(Helpers.getGson().toJson(user));
+			    existingUser.setPassword(null);
+			    userList.addToUserList(existingUser);
+				out.println(Helpers.getGson().toJson(existingUser));
 			}
 		} catch (SQLException e) {
 			System.err.println("Failed to get user with username: " + username);

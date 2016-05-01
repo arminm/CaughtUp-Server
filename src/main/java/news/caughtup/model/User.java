@@ -42,7 +42,7 @@ public class User {
         this.password = (String) userData.get("password");
         this.fullName = (String) userData.get("full_name");
         this.age = (Integer) userData.get("age");
-        this.gender = (Gender) userData.get("gender");
+        this.gender = (Gender) Gender.getGender((String) userData.get("gender"));
         this.email = (String) userData.get("email");
         this.profilePictureURL = (String) userData.get("profile_picture_url");
         this.location = (String) userData.get("location");

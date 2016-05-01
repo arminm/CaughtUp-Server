@@ -72,11 +72,12 @@ public class UserDBAdapter extends DBAdapter {
 	 * @param user
 	 * @throws SQLException 
 	 */
-	public static synchronized void updateUserPassword(User user) throws SQLException {
+	public static synchronized void updateUserPassword(User user, String oldPassword) throws SQLException {
 		PreparedStatement ps = driver.getPreparedStatement("updateUserPassword");
 		int index = baseIndex;
 		ps.setString(baseIndex, user.getPassword());
 		ps.setString(++index, user.getUsername());
+		ps.setString(++index, oldPassword);
 		ps.executeUpdate();
 	}
 
