@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import news.caughtup.database.ArticleDBAdapter;
 import news.caughtup.database.SearchDBAdapter;
 import news.caughtup.model.Article;
 import news.caughtup.model.NewsSource;
@@ -51,7 +50,7 @@ public class SearchServlet extends HttpServlet {
 			} else {
 				HashMap<String, Object> results = new HashMap<String, Object>();
 				ArrayList<User> users = SearchDBAdapter.searchUsers(keyword);
-				results.put("user", users);
+				results.put("users", users);
 
 				ArrayList<Article> articles = SearchDBAdapter.searchArticles(keyword);
 				results.put("articles", articles);
