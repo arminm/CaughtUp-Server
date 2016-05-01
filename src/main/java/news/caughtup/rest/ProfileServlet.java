@@ -42,8 +42,12 @@ public class ProfileServlet extends HttpServlet {
                 out.println(Helpers.getErrorJSON("Internal error"));
             } else {
             	HashMap<String, Object> results = new HashMap<String, Object>();
+            	existingUser.setPassword(null);
             	results.put("profile", existingUser);
             	ArrayList<User> followers = FollowerDBAdapter.getFollowers(existingUser.getResourceId());
+            	for (User user: followers) {
+            		user.setPassword(null);
+            	}
             	results.put("followers", followers);
                 out.println(Helpers.getGson().toJson(results));
             }
