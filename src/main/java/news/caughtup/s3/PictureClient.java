@@ -5,5 +5,5 @@ import java.io.InputStream;
 public interface PictureClient {
     public String uploadPicture(InputStream stream);
     public InputStream downloadPicture();
-    public boolean deletePicture();
+    public boolean deletePicture(String profilePic);
 }

@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import news.caughtup.database.FollowerDBAdapter;
 import news.caughtup.database.UserDBAdapter;
 import news.caughtup.model.User;
+import news.caughtup.s3.S3Proxy;
+import news.caughtup.util.Constants;
 import news.caughtup.util.Helpers;
 
 public class ProfileServlet extends HttpServlet {
@@ -71,12 +73,45 @@ public class ProfileServlet extends HttpServlet {
         
         String[] substrings = req.getRequestURI().substring(req.getContextPath().length()).split("/");
         String username = substrings[substrings.length - 1];
-        User user = (User) Helpers.getObjectFromJSON(req, User.class);
-        user.setUsername(username);
         String isPicture = req.getParameter("picture");
+        User existingUser = null;
         if (isPicture.equals("true")) {
-            out.println("Successfully updated profile picture of user: " + username);
+        	String[] contentType = req.getContentType().split("/");
+        	String imageType = contentType[contentType.length - 1];
+        	try {
+        		// Get user info from DB
+				existingUser = UserDBAdapter.getUser(username);
+				S3Proxy proxy = new S3Proxy(Constants.S3_PROFILE_PICTURE_PATH + username, 
+	        			Constants.PROFILE_PICTURE_NAME + "." + imageType);
+	        	
+				/* If a profile_picture_url exists, delete the old picture first
+				 * S3 limitation, since we can't just upload a file with the same name 
+				 */
+				String oldProfilePic = existingUser.getProfilePictureURL();
+	        	if (oldProfilePic != null) {
+	        		String[] parts = oldProfilePic.split("/");
+	        		String profilePicName = parts[parts.length - 1];
+	        		if (!proxy.deletePicture(profilePicName)) {
+	        			resp.setStatus(500);
+	        			out.println(Helpers.getErrorJSON("Image file could not be properly updated."));
+	        			return;
+	        		}
+	        	}
+	        	// Upload new image
+	        	String pictureURL = proxy.uploadPicture(req.getInputStream());
+	        	// Store the new picture url
+	        	existingUser.setProfilePictureURL(pictureURL);
+	        	UserDBAdapter.updateUser(existingUser);
+	            out.println(Helpers.getCustomJSON("profile_picture_url", pictureURL));
+			} catch (SQLException e) {
+				System.err.println("Failed to update profile image for user:" + existingUser.toString());
+                System.err.println(e);
+                resp.setStatus(500);
+                out.println(Helpers.getErrorJSON("Internal Error."));
+			}
         } else {
+        	User user = (User) Helpers.getObjectFromJSON(req, User.class);
+            user.setUsername(username);
             // Update the info of a user in the DB
             try {
                 UserDBAdapter.updateUser(user);
