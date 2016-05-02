@@ -36,7 +36,6 @@ public class S3Client implements PictureClient {
     @Override
     public String uploadPicture(InputStream stream) {
         try {
-            System.out.println("Uploading a new object to S3 from a file\n");
             s3Client.putObject(new PutObjectRequest(bucketName, pictureName, stream, new ObjectMetadata())
                     .withCannedAcl(CannedAccessControlList.PublicRead));
             return s3Client.getResourceUrl(bucketName, pictureName);
@@ -90,9 +89,9 @@ public class S3Client implements PictureClient {
     }
 
     @Override
-    public boolean deletePicture() {
+    public boolean deletePicture(String profilePic) {
         try {
-            s3Client.deleteObject(bucketName, pictureName);
+            s3Client.deleteObject(bucketName, profilePic);
             return true;
         } catch (AmazonServiceException ase) {
             System.out.println("Caught an AmazonServiceException, which " +

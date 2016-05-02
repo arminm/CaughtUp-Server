@@ -20,7 +20,7 @@ public class S3Proxy implements PictureClient {
     }
 
     @Override
-    public boolean deletePicture() {
-        return s3Client.deletePicture();
+    public boolean deletePicture(String profilePic) {
+        return s3Client.deletePicture(profilePic);
     }	
 }

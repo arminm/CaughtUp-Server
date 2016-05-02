@@ -41,6 +41,12 @@ public class Helpers {
 		return Helpers.getGson().toJson(jsonObject);
 	}
 	
+	public static String getCustomJSON(String key, String value) {
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty(key, value);
+		return Helpers.getGson().toJson(jsonObject);
+	}
+	
 	public static void filterPassword(List<User> users) {
 		for (User user: users) {
 			user.setPassword(null);
