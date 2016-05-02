@@ -1,15 +1,15 @@
 package news.caughtup.model;
 
 public class SharedArticle {
-    private String username;
+    private Long userId;
     private Article article;
 
-    public String getUsername() {
-        return username;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public Article getArticle() {
