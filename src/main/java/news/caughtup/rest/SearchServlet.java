@@ -40,6 +40,7 @@ public class SearchServlet extends HttpServlet {
 				out.println(Helpers.getErrorJSON("Bad Request. Keyword cannot be null."));
 			} else if (context.equals("user")) {
 				ArrayList<User> users = SearchDBAdapter.searchUsers(keyword);
+				Helpers.filterPassword(users);
 				out.println(Helpers.getGson().toJson(users));
 			} else if (context.equals("article")) {
 				ArrayList<Article> articles = SearchDBAdapter.searchArticles(keyword);
@@ -50,6 +51,7 @@ public class SearchServlet extends HttpServlet {
 			} else {
 				HashMap<String, Object> results = new HashMap<String, Object>();
 				ArrayList<User> users = SearchDBAdapter.searchUsers(keyword);
+				Helpers.filterPassword(users);
 				results.put("users", users);
 
 				ArrayList<Article> articles = SearchDBAdapter.searchArticles(keyword);
