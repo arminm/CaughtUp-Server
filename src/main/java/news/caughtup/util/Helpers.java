@@ -1,11 +1,14 @@
 package news.caughtup.util;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+
+import news.caughtup.model.User;
 
 public class Helpers {
 	private static Gson gson;
@@ -36,5 +39,11 @@ public class Helpers {
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("message", message);
 		return Helpers.getGson().toJson(jsonObject);
+	}
+	
+	public static void filterPassword(List<User> users) {
+		for (User user: users) {
+			user.setPassword(null);
+		}
 	}
 }

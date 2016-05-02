@@ -50,6 +50,7 @@ public class SearchServlet extends HttpServlet {
                 results.put("news_sources", newsSources);
 			} else {
 				ArrayList<User> users = SearchDBAdapter.searchUsers(keyword);
+				Helpers.filterPassword(users);
 				results.put("users", users);
 
 				ArrayList<Article> articles = SearchDBAdapter.searchArticles(keyword);
@@ -57,7 +58,6 @@ public class SearchServlet extends HttpServlet {
 
 				ArrayList<NewsSource> newsSources = SearchDBAdapter.searchNewsSources(keyword);
 				results.put("news_sources", newsSources);
-
 			}
             out.println(Helpers.getGson().toJson(results));
 		} catch (SQLException e) {

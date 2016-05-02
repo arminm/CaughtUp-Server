@@ -45,6 +45,7 @@ public class ProfileServlet extends HttpServlet {
             	existingUser.setPassword(null);
             	results.put("profile", existingUser);
             	ArrayList<User> followers = FollowerDBAdapter.getFollowers(existingUser.getResourceId());
+            	Helpers.filterPassword(followers);
             	for (User user: followers) {
             		user.setPassword(null);
             	}
