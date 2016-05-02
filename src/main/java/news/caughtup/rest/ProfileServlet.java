@@ -1,6 +1,8 @@
 package news.caughtup.rest;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -11,8 +13,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.codec.binary.Base64;
+
 import news.caughtup.database.FollowerDBAdapter;
 import news.caughtup.database.UserDBAdapter;
+import news.caughtup.model.UploadedImage;
 import news.caughtup.model.User;
 import news.caughtup.s3.S3Proxy;
 import news.caughtup.util.Constants;
@@ -76,17 +81,18 @@ public class ProfileServlet extends HttpServlet {
         String isPicture = req.getParameter("picture");
         User existingUser = null;
         if (isPicture.equals("true")) {
-        	String[] contentType = req.getContentType().split("/");
-        	String imageType = contentType[contentType.length - 1];
+        	UploadedImage image = (UploadedImage) Helpers.getObjectFromJSON(req, UploadedImage.class);
+        	byte[] byteArray = Base64.decodeBase64(image.getImage());
+        	InputStream stream = new ByteArrayInputStream(byteArray);
+        	String imageType = image.getType();
         	try {
         		// Get user info from DB
 				existingUser = UserDBAdapter.getUser(username);
 				S3Proxy proxy = new S3Proxy(Constants.S3_PROFILE_PICTURE_PATH + username, 
 	        			Constants.PROFILE_PICTURE_NAME + "." + imageType);
 	        	
-				/* If a profile_picture_url exists, delete the old picture first
-				 * S3 limitation, since we can't just upload a file with the same name 
-				 */
+				// If a profile_picture_url exists, delete the old picture first
+				// S3 limitation, since we can't just upload a file with the same name 
 				String oldProfilePic = existingUser.getProfilePictureURL();
 	        	if (oldProfilePic != null) {
 	        		String[] parts = oldProfilePic.split("/");
@@ -98,7 +104,7 @@ public class ProfileServlet extends HttpServlet {
 	        		}
 	        	}
 	        	// Upload new image
-	        	String pictureURL = proxy.uploadPicture(req.getInputStream());
+	        	String pictureURL = proxy.uploadPicture(stream);
 	        	// Store the new picture url
 	        	existingUser.setProfilePictureURL(pictureURL);
 	        	UserDBAdapter.updateUser(existingUser);
