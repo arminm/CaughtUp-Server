@@ -2,7 +2,7 @@ package news.caughtup.model;
 
 public class SharedArticle {
     private Long userId;
-    private Article article;
+    private Long articleId;
 
     public Long getUserId() {
         return userId;
@@ -12,11 +12,11 @@ public class SharedArticle {
         this.userId = userId;
     }
 
-    public Article getArticle() {
-        return article;
+    public Long getArticleId() {
+        return articleId;
     }
 
-    public void setArticle(Article article) {
-        this.article = article;
+    public void setArticleId(Long articleId) {
+        this.articleId = articleId;
     }
 }

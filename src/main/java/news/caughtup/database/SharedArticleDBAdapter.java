@@ -26,9 +26,13 @@ public class SharedArticleDBAdapter extends DBAdapter {
         return sharedArticles;
     }
 
-    public static synchronized void saveSharedArticle(SharedArticle sharedArticle) {
-        if (sharedArticle != null && sharedArticle.getUserId() != null && sharedArticle.getArticle() != null) {
-            
+    public static synchronized void saveSharedArticle(SharedArticle sharedArticle) throws SQLException {
+        if (sharedArticle != null && sharedArticle.getUserId() != null && sharedArticle.getArticleId() != null) {
+            PreparedStatement ps = driver.getPreparedStatement("shareArticle");
+            int index = baseIndex;
+            ps.setLong(baseIndex, sharedArticle.getUserId());
+            ps.setLong(++index, sharedArticle.getArticleId());
+            ps.executeUpdate();
         }
     }
 
