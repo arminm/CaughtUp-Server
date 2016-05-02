@@ -33,6 +33,7 @@ public class SearchServlet extends HttpServlet {
 		String context = req.getParameter("context");
 
 		try {
+            HashMap<String, Object> results = new HashMap<String, Object>();
 
 			// Send JSON response back to the client
 			if (keyword == null || keyword.isEmpty()) {
@@ -40,16 +41,14 @@ public class SearchServlet extends HttpServlet {
 				out.println(Helpers.getErrorJSON("Bad Request. Keyword cannot be null."));
 			} else if (context.equals("user")) {
 				ArrayList<User> users = SearchDBAdapter.searchUsers(keyword);
-				Helpers.filterPassword(users);
-				out.println(Helpers.getGson().toJson(users));
+				results.put("users", users);
 			} else if (context.equals("article")) {
 				ArrayList<Article> articles = SearchDBAdapter.searchArticles(keyword);
-				out.println(Helpers.getGson().toJson(articles));
+                results.put("articles", articles);
 			} else if (context.equals("news_source")) {
 				ArrayList<NewsSource> newsSources = SearchDBAdapter.searchNewsSources(keyword);
-				out.println(Helpers.getGson().toJson(newsSources));
+                results.put("news_sources", newsSources);
 			} else {
-				HashMap<String, Object> results = new HashMap<String, Object>();
 				ArrayList<User> users = SearchDBAdapter.searchUsers(keyword);
 				Helpers.filterPassword(users);
 				results.put("users", users);
@@ -59,9 +58,8 @@ public class SearchServlet extends HttpServlet {
 
 				ArrayList<NewsSource> newsSources = SearchDBAdapter.searchNewsSources(keyword);
 				results.put("news_sources", newsSources);
-
-				out.println(Helpers.getGson().toJson(results));
 			}
+            out.println(Helpers.getGson().toJson(results));
 		} catch (SQLException e) {
 			System.err.println("Failed to find results for keyword: " + keyword);
 			System.err.println(e);
