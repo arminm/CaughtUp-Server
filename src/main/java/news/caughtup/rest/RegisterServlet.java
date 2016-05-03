@@ -44,6 +44,7 @@ public class RegisterServlet extends HttpServlet {
 			} else {
 				// Add user to user list and remove password for response
 				UserDBAdapter.saveUser(user);
+				user = UserDBAdapter.getUser(username);
 				userList.addToUserList(user);
 				user.setPassword(null);
 				out.println(Helpers.getGson().toJson(user));

@@ -16,8 +16,6 @@ import java.util.Properties;
 public class MySQLDriver {
 	private Connection 			connection;
 	private static Properties 	sqlProps;
-	private ResultSet           resultSet;
-	private ResultSetMetaData   metaData;
 
 	public MySQLDriver() {
 		if (connection == null) {
@@ -86,9 +84,13 @@ public class MySQLDriver {
 			System.err.println("There is no database to execute the query.");
 			return null;
 		}
+		ResultSet resultSet = statement.executeQuery();
+		return parseResultSet(resultSet);
+	}
+
+	public static ArrayList<HashMap<String,Object>> parseResultSet(ResultSet resultSet) throws SQLException {
 		ArrayList<HashMap<String, Object>> rows = new ArrayList<HashMap<String, Object>>();
-		resultSet = statement.executeQuery();
-		metaData = resultSet.getMetaData();
+		ResultSetMetaData metaData = resultSet.getMetaData();
 		int numberOfColumns =  metaData.getColumnCount();
 
 		// Get all rows
@@ -101,10 +103,9 @@ public class MySQLDriver {
 			}
 			rows.add(newRow);
 		}
-
 		return rows;
 	}
-
+	
 	public void close() throws SQLException {
 		System.out.println("Closing db connection");
 		connection.close();
