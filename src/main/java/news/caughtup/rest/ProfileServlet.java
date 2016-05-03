@@ -106,8 +106,7 @@ public class ProfileServlet extends HttpServlet {
 	        	// Upload new image
 	        	String pictureURL = proxy.uploadPicture(stream);
 	        	// Store the new picture url
-	        	existingUser.setProfilePictureURL(pictureURL);
-	        	UserDBAdapter.updateUser(existingUser);
+	        	UserDBAdapter.updateUserProfilePic(username, pictureURL);
 	            out.println(Helpers.getCustomJSON("profile_picture_url", pictureURL));
 			} catch (SQLException e) {
 				System.err.println("Failed to update profile image for user:" + existingUser.toString());
