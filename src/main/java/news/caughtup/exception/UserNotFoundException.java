@@ -4,6 +4,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import news.caughtup.util.Helpers;
 
+
+/**
+ * @author CaughtUp
+ * Exception to handle user not found case
+ */
 public class UserNotFoundException extends CaughtUpServerException {
     private static final long serialVersionUID = 1L;
 

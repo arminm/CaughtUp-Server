@@ -2,6 +2,10 @@ package news.caughtup.model;
 
 import java.util.HashMap;
 
+/**
+ * @author CaughtUp
+ *
+ */
 public class User {
     private static final String SEPARATOR=",";
     private Long userId;

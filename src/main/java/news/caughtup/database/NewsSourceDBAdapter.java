@@ -8,6 +8,10 @@ import java.util.Map;
 
 import news.caughtup.model.NewsSource;
 
+/**
+ * @author CaughtUp
+ *
+ */
 public class NewsSourceDBAdapter extends DBAdapter {
     
     /**

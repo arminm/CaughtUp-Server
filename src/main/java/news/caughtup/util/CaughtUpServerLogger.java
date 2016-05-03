@@ -1,5 +1,10 @@
 package news.caughtup.util;
 
+
+/**
+ * Not used in the current implementation
+ *
+ */
 public class CaughtUpServerLogger {
     private static CaughtUpServerLogger logger;
 

@@ -25,7 +25,11 @@ import news.caughtup.model.NewsSourceList;
 import news.caughtup.s3.S3Proxy;
 import news.caughtup.util.RSSReader;
 
-
+/**
+ * 
+ * Ignore this file, was just for testing
+ *
+ */
 public class TestS3Servlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 

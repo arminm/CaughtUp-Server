@@ -5,6 +5,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author CaughtUp
+ *
+ */
 public class UserList {
     private static UserList userList;
     private static Map<String, User> userMap = new HashMap<>();

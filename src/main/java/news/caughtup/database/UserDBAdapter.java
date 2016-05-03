@@ -11,6 +11,10 @@ import news.caughtup.exception.ExceptionType;
 import news.caughtup.exception.UserNotFoundException;
 import news.caughtup.model.User;
 
+/**
+ * @author CaughtUp
+ *
+ */
 public class UserDBAdapter extends DBAdapter {
 	/**
 	 * Gets a user from the database using the <b>username</b> and returns a <b>User</b> object.

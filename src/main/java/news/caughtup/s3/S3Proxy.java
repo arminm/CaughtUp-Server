@@ -2,6 +2,10 @@ package news.caughtup.s3;
 
 import java.io.InputStream;
 
+/**
+ * @author CaughtUp
+ * Proxy class to use the S3Client, it delegates the methods to be executed by the client
+ */
 public class S3Proxy implements PictureClient {
     private S3Client s3Client;
 

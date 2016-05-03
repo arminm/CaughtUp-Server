@@ -15,11 +15,16 @@ import news.caughtup.database.ArticleDBAdapter;
 import news.caughtup.model.Article;
 import news.caughtup.util.Helpers;
 
+/**
+ * @author CaughtUp
+ *
+ */
 public class ArticleServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * [GET] /articles
+	 * [GET] /articles?source=
+	 * Used to retrieve a list of articles for a particular news_source
 	 */
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

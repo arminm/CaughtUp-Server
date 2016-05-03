@@ -15,11 +15,16 @@ import news.caughtup.model.ChangePassword;
 import news.caughtup.model.User;
 import news.caughtup.util.Helpers;
 
+/**
+ * @author CaughtUp
+ *
+ */
 public class PasswordServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     
     /**
      * [PUT] /password/:username
+     * Used to update the password of a user
      */
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -32,13 +37,15 @@ public class PasswordServlet extends HttpServlet {
         ChangePassword changePassword = (ChangePassword) Helpers.getObjectFromJSON(req, ChangePassword.class);
         User existingUser = null;
         try {
+        	// Get the user info from the DB
             existingUser = UserDBAdapter.getUser(username);
             
-            // Send JSON response back to the client
+           // If the old password provided doesn't match return unauthorized
            if (!existingUser.getPassword().equals(changePassword.getOldPassword())) {
                 resp.setStatus(403);
                 out.println(Helpers.getErrorJSON("Access Denied."));
             } else {
+            	// Update the password with the new value and return Success
                 existingUser.setPassword(changePassword.getNewPassword());
                 UserDBAdapter.updateUserPassword(existingUser, changePassword.getOldPassword());
                 out.println(Helpers.getMessageJSON("Success"));

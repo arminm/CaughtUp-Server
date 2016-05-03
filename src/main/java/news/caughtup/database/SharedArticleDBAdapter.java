@@ -8,8 +8,18 @@ import java.util.HashMap;
 import news.caughtup.model.Article;
 import news.caughtup.model.SharedArticle;
 
+/**
+ * @author CaughtUp
+ *
+ */
 public class SharedArticleDBAdapter extends DBAdapter {
 
+    /**
+     * Returns an ArrayList<Article> for a given userId
+     * @param userId
+     * @return
+     * @throws SQLException
+     */
     public static synchronized ArrayList<Article> getArticles(Long userId) throws SQLException {
         if (userId == null) {
             return null;
@@ -26,6 +36,11 @@ public class SharedArticleDBAdapter extends DBAdapter {
         return sharedArticles;
     }
 
+    /**
+     * Saves an Article shared by a user
+     * @param sharedArticle
+     * @throws SQLException
+     */
     public static synchronized void saveSharedArticle(SharedArticle sharedArticle) throws SQLException {
         if (sharedArticle != null && sharedArticle.getUserId() != null && sharedArticle.getArticleId() != null) {
             PreparedStatement ps = driver.getPreparedStatement("shareArticle");
@@ -36,6 +51,10 @@ public class SharedArticleDBAdapter extends DBAdapter {
         }
     }
 
+    /**
+     * Deletes an shared article (right now not supported)
+     * @param sharedArticle
+     */
     public static synchronized void deleteSharedArticle(SharedArticle sharedArticle) {
         // TODO: delete article from DB
     }

@@ -3,6 +3,10 @@ package news.caughtup.socket;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Not used in the current implementation
+ *
+ */
 public class Dispatcher {
     private Map<String, CaughtUpSocket> caughtUpSockets;
     private static Dispatcher dispatcher;

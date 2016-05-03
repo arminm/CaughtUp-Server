@@ -17,12 +17,17 @@ import news.caughtup.model.User;
 import news.caughtup.model.UserList;
 import news.caughtup.util.Helpers;
 
+/**
+ * @author CaughtUp
+ *
+ */
 public class RegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final UserList userList = UserList.getUserList();
 
 	/**
 	 * [POST] /register/:username
+	 * Used to register a new user
 	 */
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

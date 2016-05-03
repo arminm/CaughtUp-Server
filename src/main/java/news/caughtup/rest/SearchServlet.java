@@ -17,11 +17,16 @@ import news.caughtup.model.NewsSource;
 import news.caughtup.model.User;
 import news.caughtup.util.Helpers;
 
+/**
+ * @author CaughtUp
+ *
+ */
 public class SearchServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * [GET] /search?keyword=&context=[user, article, news_source, all]
+	 * Used to retrieve search results
 	 */
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -29,13 +34,14 @@ public class SearchServlet extends HttpServlet {
 		resp.setContentType("application/json");
 		PrintWriter out = resp.getWriter();
 
+		// Get query params
 		String keyword = req.getParameter("keyword");
 		String context = req.getParameter("context");
 
 		try {
             HashMap<String, Object> results = new HashMap<String, Object>();
 
-			// Send JSON response back to the client
+            // Figure out what needs to be retrieved based on the context of the search
 			if (keyword == null || keyword.isEmpty()) {
 				resp.setStatus(400);
 				out.println(Helpers.getErrorJSON("Bad Request. Keyword cannot be null."));
@@ -59,6 +65,7 @@ public class SearchServlet extends HttpServlet {
 				ArrayList<NewsSource> newsSources = SearchDBAdapter.searchNewsSources(keyword);
 				results.put("news_sources", newsSources);
 			}
+			// Send JSON response back to the client
             out.println(Helpers.getGson().toJson(results));
 		} catch (SQLException e) {
 			System.err.println("Failed to find results for keyword: " + keyword);

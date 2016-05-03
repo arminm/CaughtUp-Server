@@ -16,12 +16,17 @@ import news.caughtup.model.User;
 import news.caughtup.model.UserList;
 import news.caughtup.util.Helpers;
 
+/**
+ * @author CaughtUp
+ *
+ */
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final UserList userList = UserList.getUserList();
 	
 	/**
 	 * [POST] /login/:username
+	 * Used to login a user
 	 */
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -32,19 +37,21 @@ public class LoginServlet extends HttpServlet {
 		String[] substrings = req.getRequestURI().substring(req.getContextPath().length()).split("/");
 		String username = substrings[substrings.length - 1];
 		User user = (User) Helpers.getObjectFromJSON(req, User.class);
+		// Get the user info from the DB using the username we got
 		user.setUsername(username);
 		// Get user from DB
 		User existingUser = null;
 		try {
 			existingUser = UserDBAdapter.getUser(username);
-
-			// Send JSON response back to the client
+			
+			// If the password doesn't match return 403
 			if (!existingUser.getPassword().equals(user.getPassword())) {
 				resp.setStatus(403);
 				out.println(Helpers.getErrorJSON("Access Denied."));
 			} else {
 			    existingUser.setPassword(null);
 			    userList.addToUserList(existingUser);
+			    // Send JSON response back to the client
 				out.println(Helpers.getGson().toJson(existingUser));
 			}
 		} catch (SQLException e) {

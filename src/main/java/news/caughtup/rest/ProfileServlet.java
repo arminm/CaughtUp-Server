@@ -24,11 +24,16 @@ import news.caughtup.s3.S3Proxy;
 import news.caughtup.util.Constants;
 import news.caughtup.util.Helpers;
 
+/**
+ * @author CaughtUp
+ *
+ */
 public class ProfileServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * [GET] /profile/:username
+	 * Used to retrieve the info of a user
 	 */
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -39,21 +44,22 @@ public class ProfileServlet extends HttpServlet {
 		String[] substrings = req.getRequestURI().substring(req.getContextPath().length()).split("/");
 		String username = substrings[substrings.length - 1];
 
-		// Get user from DB
 		User existingUser = null;
 		try {
+			// Get user from DB
 			existingUser = UserDBAdapter.getUser(username);
 
-			// Send JSON response back to the client
 			HashMap<String, Object> results = new HashMap<String, Object>();
 			existingUser.setPassword(null);
 			results.put("profile", existingUser);
+			// Get the users followers
 			ArrayList<User> followers = FollowerDBAdapter.getFollowers(existingUser.getResourceId());
 			Helpers.filterPassword(followers);
 			for (User user: followers) {
 				user.setPassword(null);
 			}
 			results.put("followers", followers);
+			// Send JSON response back to the client
 			out.println(Helpers.getGson().toJson(results));
 
 		} catch (SQLException e) {
@@ -68,6 +74,7 @@ public class ProfileServlet extends HttpServlet {
 
 	/**
 	 * [PUT] /profile/:username?picture={true,false}
+	 * Used to update the information of a user
 	 */
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -79,7 +86,9 @@ public class ProfileServlet extends HttpServlet {
 		String username = substrings[substrings.length - 1];
 		String isPicture = req.getParameter("picture");
 		User existingUser = null;
+		// If it's an image update
 		if (isPicture.equals("true")) {
+			// Get the encoded image from the json string
 			UploadedImage image = (UploadedImage) Helpers.getObjectFromJSON(req, UploadedImage.class);
 			byte[] byteArray = Base64.decodeBase64(image.getImage());
 			InputStream stream = new ByteArrayInputStream(byteArray);
@@ -113,11 +122,11 @@ public class ProfileServlet extends HttpServlet {
 				resp.setStatus(500);
 				out.println(Helpers.getErrorJSON("Internal Error."));
 			} catch (CaughtUpServerException e) {
-				// TODO Auto-generated catch block
 				resp.setStatus(404);
 				e.printStackTrace();
 			}
 		} else {
+			// It's an update without image
 			User user = (User) Helpers.getObjectFromJSON(req, User.class);
 			user.setUsername(username);
 			// Update the info of a user in the DB

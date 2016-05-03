@@ -9,6 +9,10 @@ import news.caughtup.model.Follow;
 import news.caughtup.model.NewsSource;
 import news.caughtup.model.User;
 
+/**
+ * @author CaughtUp
+ *
+ */
 public class FollowerDBAdapter extends DBAdapter {
 
 	/**
@@ -37,7 +41,7 @@ public class FollowerDBAdapter extends DBAdapter {
 	}
 
 	/**
-	 * Retrieves the list of users that the user is following.
+	 * Retrieves the list of news sources that the user is following.
 	 * @param resourceId
 	 * @return List<User>
 	 * @throws SQLException
