@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import news.caughtup.database.UserDBAdapter;
+import news.caughtup.exception.CaughtUpServerException;
+import news.caughtup.exception.CaughtUpServerExceptionFactory;
+import news.caughtup.exception.ExceptionType;
 import news.caughtup.model.User;
 import news.caughtup.model.UserList;
 import news.caughtup.util.Helpers;
@@ -32,28 +35,30 @@ public class RegisterServlet extends HttpServlet {
 		User user = (User) Helpers.getObjectFromJSON(req, User.class);
 		user.setUsername(username);
 
-		User existingUser = null;
 		try {
 			//Try to get user from DB
-			existingUser = UserDBAdapter.getUser(username);
-			
-			// If user exists, the username is taken
-			if (existingUser != null) {
-				resp.setStatus(403);
-				out.println(Helpers.getErrorJSON("Username taken."));
-			} else {
+			try {
+				UserDBAdapter.getUser(username);
+			} catch (CaughtUpServerException e) {
+				// User with username doesn't exist.
 				// Add user to user list and remove password for response
 				UserDBAdapter.saveUser(user);
 				user = UserDBAdapter.getUser(username);
 				userList.addToUserList(user);
 				user.setPassword(null);
 				out.println(Helpers.getGson().toJson(user));
+				return;
 			}
+			
+			// If user exists, the username is taken
+			throw CaughtUpServerExceptionFactory.createException(ExceptionType.UsernameTakenException);
 		} catch (SQLException e) {
 			System.err.println("Failed to save user in DB:" + user.toString());
 			System.err.println(e);
 			resp.setStatus(500);
 			out.println(Helpers.getErrorJSON("Internal Error. Make sure username is unique."));
+		} catch (CaughtUpServerException e) {
+			out.println(e.fix(resp));
 		}
 	}
 }

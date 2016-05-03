@@ -1,6 +1,8 @@
 package news.caughtup.exception;
 
+import javax.servlet.http.HttpServletResponse;
+
 public interface ICaughtUpServerException {
-    public void fix(int errorno);
+    public String fix(HttpServletResponse response);
     public void log();
 }

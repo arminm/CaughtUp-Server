@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import news.caughtup.database.UserDBAdapter;
+import news.caughtup.exception.CaughtUpServerException;
 import news.caughtup.model.ChangePassword;
 import news.caughtup.model.User;
 import news.caughtup.util.Helpers;
@@ -34,10 +35,7 @@ public class PasswordServlet extends HttpServlet {
             existingUser = UserDBAdapter.getUser(username);
             
             // Send JSON response back to the client
-            if (existingUser == null) {
-                resp.setStatus(404);
-                out.println(Helpers.getErrorJSON("Not Found."));
-            } else if (!existingUser.getPassword().equals(changePassword.getOldPassword())) {
+           if (!existingUser.getPassword().equals(changePassword.getOldPassword())) {
                 resp.setStatus(403);
                 out.println(Helpers.getErrorJSON("Access Denied."));
             } else {
@@ -50,6 +48,8 @@ public class PasswordServlet extends HttpServlet {
             System.err.println(e);
             resp.setStatus(500);
             out.println(Helpers.getErrorJSON("Internal Error."));
-        }
+        } catch (CaughtUpServerException e) {
+			out.println(e.fix(resp));
+		}
     }
 }

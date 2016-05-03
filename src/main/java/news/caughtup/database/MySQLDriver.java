@@ -23,12 +23,7 @@ public class MySQLDriver {
 			try {
 				/* Initialize Connection with database */
 				Properties props = new Properties();
-				/* TODO: 
-				 * The path needs to be updated with the correct file location 
-				 */
-				
 				FileInputStream in = new FileInputStream(dbPropsPath);
-				
 				
 				props.load(in);
 				String driverName = props.getProperty("driverName");
