@@ -66,6 +66,19 @@ public class UserDBAdapter extends DBAdapter {
 		ps.setString(++index, user.getUsername());
 		ps.executeUpdate();
 	}
+	
+	/**
+	 * Updates a user's profile picture in the database.
+	 * @param username, profilePicUrl
+	 * @throws SQLException 
+	 */
+	public static synchronized void updateUserProfilePic(String username, String profilePicUrl) throws SQLException {
+		PreparedStatement ps = driver.getPreparedStatement("updateProfilePic");
+		int index = baseIndex;
+		ps.setString(baseIndex, profilePicUrl);
+		ps.setString(++index, username);
+		ps.executeUpdate();
+	}
 
 	/**
 	 * Updates a user's <b>password</b> in the database.
