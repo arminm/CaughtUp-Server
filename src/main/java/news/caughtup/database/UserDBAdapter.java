@@ -5,6 +5,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import news.caughtup.exception.CaughtUpServerException;
+import news.caughtup.exception.CaughtUpServerExceptionFactory;
+import news.caughtup.exception.ExceptionType;
+import news.caughtup.exception.UserNotFoundException;
 import news.caughtup.model.User;
 
 public class UserDBAdapter extends DBAdapter {
@@ -13,21 +17,22 @@ public class UserDBAdapter extends DBAdapter {
 	 * @param username
 	 * @return User
 	 * @throws SQLException
+	 * @throws UserNotFoundException 
 	 */
-	public static synchronized User getUser(String username) throws SQLException {
+	public static synchronized User getUser(String username) throws SQLException, CaughtUpServerException {
 		// Get user data from database
 		PreparedStatement ps = driver.getPreparedStatement("getUser");
 		ps.setString(baseIndex, username);
 		ArrayList<HashMap<String,Object>> result = driver.executeStatement(ps);
 		if (result == null || result.size() == 0) {
-			return null;
+			throw CaughtUpServerExceptionFactory.createException(ExceptionType.UserNotFoundException);
 		}
 
 		// Create the user object
 		HashMap<String, Object> userData = result.get(0);
 		User user = new User(userData);
 		if (user.getUserId() == 0) {
-			return null;
+			throw CaughtUpServerExceptionFactory.createException(ExceptionType.UserNotFoundException);
 		}
 		return user;
 	}

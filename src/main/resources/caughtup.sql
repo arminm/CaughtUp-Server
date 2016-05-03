@@ -1,6 +1,6 @@
--- MySQL dump 10.13  Distrib 5.5.49, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.9, for linux-glibc2.5 (x86_64)
 --
--- Host: localhost    Database: caughtupdb
+-- Host: 127.0.0.1    Database: caughtupdb
 -- ------------------------------------------------------
 -- Server version	5.5.49-0ubuntu0.14.04.1
 
@@ -25,24 +25,15 @@ DROP TABLE IF EXISTS `article`;
 CREATE TABLE `article` (
   `article_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `resource_id` bigint(20) NOT NULL,
-  `title` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `title` text CHARACTER SET utf8,
   `date` datetime DEFAULT NULL,
-  `summary` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `article_url` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `summary` text CHARACTER SET utf8,
+  `article_url` text CHARACTER SET utf8,
   PRIMARY KEY (`article_id`),
   KEY `resource_fk_idx` (`resource_id`),
   CONSTRAINT `article_resource_fk` FOREIGN KEY (`resource_id`) REFERENCES `resource` (`resource_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=399 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `article`
---
-
-LOCK TABLES `article` WRITE;
-/*!40000 ALTER TABLE `article` DISABLE KEYS */;
-/*!40000 ALTER TABLE `article` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `follower_following`
@@ -57,18 +48,10 @@ CREATE TABLE `follower_following` (
   PRIMARY KEY (`user_id`,`resource_id`),
   KEY `follower_following_resource_fk_idx` (`resource_id`),
   CONSTRAINT `follower_following_resource_fk` FOREIGN KEY (`resource_id`) REFERENCES `resource` (`resource_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `follower_following_user_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `follower_following_user_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `follower_following`
---
-
-LOCK TABLES `follower_following` WRITE;
-/*!40000 ALTER TABLE `follower_following` DISABLE KEYS */;
-/*!40000 ALTER TABLE `follower_following` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `news_source`
@@ -80,9 +63,10 @@ DROP TABLE IF EXISTS `news_source`;
 CREATE TABLE `news_source` (
   `resource_id` bigint(20) NOT NULL,
   `name` varchar(40) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `base_url` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `description` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `rss_url` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `base_url` text CHARACTER SET utf8,
+  `description` text CHARACTER SET utf8,
+  `rss_url` text CHARACTER SET utf8,
+  `latest_article_date` datetime DEFAULT NULL,
   PRIMARY KEY (`resource_id`),
   KEY `news_source_resource_fk_idx` (`resource_id`),
   CONSTRAINT `news_source_resource_fk` FOREIGN KEY (`resource_id`) REFERENCES `resource` (`resource_id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -95,6 +79,7 @@ CREATE TABLE `news_source` (
 
 LOCK TABLES `news_source` WRITE;
 /*!40000 ALTER TABLE `news_source` DISABLE KEYS */;
+INSERT INTO `news_source` VALUES (72,'cnn','http://www.cnn.com','CNN news','http://rss.cnn.com/rss/cnn_topstories.rss','2016-05-02 19:03:45'),(73,'bbc','http://www.bbc.com','BBC news','http://feeds.bbci.co.uk/news/world/us_and_canada/rss.xml?edition=int','2016-05-02 16:33:47');
 /*!40000 ALTER TABLE `news_source` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -108,18 +93,8 @@ DROP TABLE IF EXISTS `resource`;
 CREATE TABLE `resource` (
   `resource_id` bigint(20) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`resource_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `resource`
---
-
-LOCK TABLES `resource` WRITE;
-/*!40000 ALTER TABLE `resource` DISABLE KEYS */;
-INSERT INTO `resource` VALUES (2);
-/*!40000 ALTER TABLE `resource` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `shared_article`
@@ -134,19 +109,11 @@ CREATE TABLE `shared_article` (
   PRIMARY KEY (`user_id`,`article_id`),
   KEY `shared_article_user_fk_idx` (`user_id`),
   KEY `shared_article_article_fk` (`article_id`),
-  CONSTRAINT `shared_article_user_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `shared_article_article_fk` FOREIGN KEY (`article_id`) REFERENCES `article` (`article_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `shared_article_article_fk` FOREIGN KEY (`article_id`) REFERENCES `article` (`article_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `shared_article_user_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `shared_article`
---
-
-LOCK TABLES `shared_article` WRITE;
-/*!40000 ALTER TABLE `shared_article` DISABLE KEYS */;
-/*!40000 ALTER TABLE `shared_article` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `user`
@@ -160,29 +127,20 @@ CREATE TABLE `user` (
   `resource_id` bigint(20) NOT NULL,
   `username` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
   `full_name` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `profile_picture_url` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `profile_picture_url` text CHARACTER SET utf8,
   `age` int(11) DEFAULT NULL,
   `gender` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
   `location` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `email` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `about_me` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `about_me` text CHARACTER SET utf8,
   `password` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `username_UNIQUE` (`username`),
   KEY `resource_fk_idx` (`resource_id`),
   CONSTRAINT `user_resource_fk` FOREIGN KEY (`resource_id`) REFERENCES `resource` (`resource_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `user`
---
-
-LOCK TABLES `user` WRITE;
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (2,2,'test',NULL,NULL,NULL,NULL,NULL,NULL,NULL,'test');
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -193,4 +151,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-05-01 20:39:41
+-- Dump completed on 2016-05-02 19:20:42
