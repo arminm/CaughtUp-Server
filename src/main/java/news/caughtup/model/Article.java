@@ -3,6 +3,10 @@ package news.caughtup.model;
 import java.sql.Timestamp;
 import java.util.HashMap;
 
+/**
+ * @author CaughtUp
+ *
+ */
 public class Article {
 	private Long articleId;
 	private Long resourceId;

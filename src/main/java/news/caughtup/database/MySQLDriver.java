@@ -13,6 +13,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
 
+/**
+ * @author CaughtUp
+ *
+ */
 public class MySQLDriver {
 	private Connection 			connection;
 	private static Properties 	sqlProps;
@@ -69,11 +73,23 @@ public class MySQLDriver {
 		}
 	}
 
+	/**
+	 * Returns a prepared statement to a DBAdapter
+	 * @param sqlKey
+	 * @return
+	 * @throws SQLException
+	 */
 	public PreparedStatement getPreparedStatement(String sqlKey) throws SQLException {
 		String query = sqlProps.getProperty(sqlKey);
 		return connection.prepareStatement(query);
 	}
 
+	/**
+	 * Executes a SQL statement and returns the result
+	 * @param statement
+	 * @return
+	 * @throws SQLException
+	 */
 	public ArrayList<HashMap<String, Object>> executeStatement(PreparedStatement statement) throws SQLException {
 		if (connection == null || statement == null) {
 			System.err.println("There is no database to execute the query.");
@@ -83,6 +99,12 @@ public class MySQLDriver {
 		return parseResultSet(resultSet);
 	}
 
+	/**
+	 * Helper method to parse a ResultSet in a list of Hashmaps
+	 * @param resultSet
+	 * @return
+	 * @throws SQLException
+	 */
 	public static ArrayList<HashMap<String,Object>> parseResultSet(ResultSet resultSet) throws SQLException {
 		ArrayList<HashMap<String, Object>> rows = new ArrayList<HashMap<String, Object>>();
 		ResultSetMetaData metaData = resultSet.getMetaData();
@@ -101,6 +123,10 @@ public class MySQLDriver {
 		return rows;
 	}
 	
+	/**
+	 * Close the connection
+	 * @throws SQLException
+	 */
 	public void close() throws SQLException {
 		System.out.println("Closing db connection");
 		connection.close();

@@ -4,6 +4,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import news.caughtup.util.Helpers;
 
+/**
+ * @author CaughtUp
+ * Exception to handle the Username taken case
+ */
 public class UsernameTakenException extends CaughtUpServerException {
     private static final long serialVersionUID = 1L;
 
@@ -17,5 +21,4 @@ public class UsernameTakenException extends CaughtUpServerException {
     public void log() {
         System.out.println("Username is taken.");
     }
-
 }

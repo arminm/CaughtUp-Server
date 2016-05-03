@@ -7,6 +7,9 @@ import java.util.HashMap;
 
 import news.caughtup.model.Article;
 
+/**
+ * @author CaughtUp
+ */
 public class ArticleDBAdapter extends DBAdapter {
 
 	/**

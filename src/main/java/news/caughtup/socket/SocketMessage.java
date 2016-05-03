@@ -1,5 +1,9 @@
 package news.caughtup.socket;
 
+/**
+ * Not used in the current implementation
+ *
+ */
 public class SocketMessage {
     private String type;
     private int resourceID;

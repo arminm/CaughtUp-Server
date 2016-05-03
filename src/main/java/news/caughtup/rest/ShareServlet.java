@@ -19,17 +19,23 @@ import news.caughtup.model.Article;
 import news.caughtup.model.SharedArticle;
 import news.caughtup.util.Helpers;
 
+/**
+ * @author CaughtUp
+ *
+ */
 public class ShareServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     /**
      * [GET] /share?user_id=
+     * Used to get articles that have been shared by a user
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Long userId = Long.valueOf(req.getParameter("user_id"));
         PrintWriter out = resp.getWriter();
         try {
+        	// Get articles shared from DB
             ArrayList<Article> sharedArticles = SharedArticleDBAdapter.getArticles(userId);
             HashMap<String, Object> articlesMap = new HashMap<>();
             articlesMap.put("articles", sharedArticles);
@@ -43,6 +49,7 @@ public class ShareServlet extends HttpServlet {
     }
     /**
      * [POST] /share?user_id=&article_id=
+     * Used to share a new article from a user
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -53,6 +60,7 @@ public class ShareServlet extends HttpServlet {
         sharedArticle.setArticleId(articleId);
         PrintWriter out = resp.getWriter();
         try {
+        	// Store the article being shared in DB
             SharedArticleDBAdapter.saveSharedArticle(sharedArticle);
             out.println(Helpers.getMessageJSON("Success"));
         } catch (SQLException e) {

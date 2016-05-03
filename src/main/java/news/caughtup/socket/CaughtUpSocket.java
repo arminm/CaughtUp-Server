@@ -1,5 +1,10 @@
 package news.caughtup.socket;
 
+
+/**
+ * Not used in the current implementation
+ *
+ */
 public class CaughtUpSocket {
     private Dispatcher dispatcher;
 

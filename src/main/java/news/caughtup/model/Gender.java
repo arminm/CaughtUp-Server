@@ -2,6 +2,11 @@ package news.caughtup.model;
 
 import com.google.gson.annotations.SerializedName;
 
+
+/**
+ * @author CaughtUp
+ * Enum for gender type
+ */
 public enum Gender {
 	@SerializedName("male")
     MALE("male"),

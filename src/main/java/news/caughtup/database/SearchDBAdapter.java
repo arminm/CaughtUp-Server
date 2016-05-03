@@ -9,6 +9,11 @@ import news.caughtup.model.Article;
 import news.caughtup.model.NewsSource;
 import news.caughtup.model.User;
 
+
+/**
+ * @author CaughtUp
+ *
+ */
 public class SearchDBAdapter extends DBAdapter {
 	/**
 	 * Search users using a <b>keyword</b>

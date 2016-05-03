@@ -1,5 +1,10 @@
 package news.caughtup.model;
 
+
+/**
+ * @author CaughtUp
+ *
+ */
 public class UploadedImage {
 	private String image;
 	private String type;

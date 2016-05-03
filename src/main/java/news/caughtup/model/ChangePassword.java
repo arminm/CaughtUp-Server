@@ -1,5 +1,9 @@
 package news.caughtup.model;
 
+/**
+ * @author CaughtUp
+ *
+ */
 public class ChangePassword {
     private String oldPassword;
     private String newPassword;

@@ -1,5 +1,9 @@
 package news.caughtup.model;
 
+/**
+ * @author CaughtUp
+ * Model for the follower-following relationship
+ */
 public class Follow {
 	private Long userId;
 	private Long resourceId;

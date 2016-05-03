@@ -5,6 +5,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+
+/**
+ * @author CaughtUp
+ *
+ */
 public class NewsSourceList {
     private static NewsSourceList newsSourceList;
     private static Map<String, NewsSource> newsSourcesMap = new HashMap<>();

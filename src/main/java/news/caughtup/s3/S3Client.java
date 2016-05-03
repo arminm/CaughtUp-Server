@@ -14,6 +14,10 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 
+/**
+ * @author CaughtUp
+ * S3 specific client for uploading images
+ */
 public class S3Client implements PictureClient {
     private static final AmazonS3Client s3Client = new AmazonS3Client(new ProfileCredentialsProvider());
     private String bucketName;
@@ -33,9 +37,13 @@ public class S3Client implements PictureClient {
         this.pictureName = pictureURL;
     }
 
+    /**
+     * Method to upload an image to S3
+     */
     @Override
     public String uploadPicture(InputStream stream) {
         try {
+        	// Upload the image with public read access, so that clients can download it
             s3Client.putObject(new PutObjectRequest(bucketName, pictureName, stream, new ObjectMetadata())
                     .withCannedAcl(CannedAccessControlList.PublicRead));
             return s3Client.getResourceUrl(bucketName, pictureName);
@@ -60,6 +68,9 @@ public class S3Client implements PictureClient {
         return null;
     }
 
+    /**
+     * Not used after all, since images are downloaded by clients directly
+     */
     @Override
     public InputStream downloadPicture() {
         try {
@@ -88,6 +99,10 @@ public class S3Client implements PictureClient {
         return null;
     }
 
+    /**
+     * Method to delete an image in S3
+     * Required to clear out old profile pictures
+     */
     @Override
     public boolean deletePicture(String profilePic) {
         try {

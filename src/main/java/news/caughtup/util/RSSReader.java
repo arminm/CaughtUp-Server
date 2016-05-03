@@ -22,6 +22,10 @@ import news.caughtup.model.Article;
 import news.caughtup.model.NewsSource;
 import news.caughtup.model.NewsSourceList;
 
+/**
+ * @author CaughtUp
+ *
+ */
 public class RSSReader extends TimerTask {
 	private NewsSourceList newsSourceList;
 
@@ -34,25 +38,30 @@ public class RSSReader extends TimerTask {
 		try {
 			Map<String, NewsSource> newsSourcesMap = new HashMap<String, NewsSource>(); 
 			for (NewsSource newsSource: newsSourceList.getNewsSources()) {
-//				System.out.println("Retrieving articles for news source: " + newsSource.getName());
+				/* For each NewsSource get a list of articles
+				 * by sending a request to the source's url
+				 */
 				URL feedUrl = new URL(newsSource.getRssURL());
 				SyndFeedInput input = new SyndFeedInput();
 				SyndFeed feed = input.build(new XmlReader(feedUrl));
 				@SuppressWarnings("unchecked")
 				List<SyndEntryImpl> feeds = feed.getEntries();
+				/* Get the latest article date that we got from this source
+				 * This way we avoid showing to the user old articles
+				 */
 				Date latestArticleDate = newsSource.getLatestArticleDate();
 				if (latestArticleDate == null) {
 					latestArticleDate = feeds.get(0).getPublishedDate();
 				}
+				// Keep track of the new latest article date based on the new articles
 				Date newLatestArticleDate = latestArticleDate;
-//				System.out.println("Latest: " + newLatestArticleDate);
 				for (SyndEntryImpl entry: feeds) {
 					Date articleDate = entry.getPublishedDate();
 					if (articleDate.after(latestArticleDate)) {
+						// If a new article was found, store it in the DB
 						if (articleDate.after(newLatestArticleDate)) {
 							newLatestArticleDate = articleDate;
 						}
-
 						Timestamp articleTimestamp = new Timestamp(entry.getPublishedDate().getTime());
 						Article article = new Article(null, newsSource.getResourceId(), entry.getTitle(), articleTimestamp, 
 								entry.getDescription().getValue().toString(), entry.getUri());
@@ -60,7 +69,7 @@ public class RSSReader extends TimerTask {
 						ArticleDBAdapter.saveArticle(article);
 					}
 				}
-//				System.out.println("New Latest: " + newLatestArticleDate);
+				// Update news sources with the new latest article date
 				newsSource.setLatestArticleDate(new Timestamp(newLatestArticleDate.getTime()));
 				newsSourcesMap.put(newsSource.getName(), newsSource);
 			}

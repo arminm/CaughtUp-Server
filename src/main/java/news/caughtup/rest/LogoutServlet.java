@@ -10,10 +10,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import news.caughtup.model.UserList;
 
+/**
+ * @author CaughtUp
+ *
+ */
 public class LogoutServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private static final UserList userList = UserList.getUserList();
 
+    
+    /**
+     * GET /logout/:username
+     * Used to logout a user
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = req.getRequestURI().substring(req.getContextPath().length()).split("/")[2];

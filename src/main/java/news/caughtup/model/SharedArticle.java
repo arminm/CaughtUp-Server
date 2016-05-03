@@ -1,5 +1,10 @@
 package news.caughtup.model;
 
+
+/**
+ * @author CaughtUp
+ *
+ */
 public class SharedArticle {
     private Long userId;
     private Long articleId;
